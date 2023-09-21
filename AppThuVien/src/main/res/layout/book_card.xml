@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/BookCard"
+    android:layout_width="140dp"
+    android:layout_height="220dp"
+    android:layout_margin="3dp"
+    android:background="@drawable/roundedcard"
+    android:orientation="vertical"
+    tools:ignore="TextSizeCheck">
+
+    <ImageView
+        android:id="@+id/imageBook"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="2dp"
+        android:src="@drawable/book01"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/nameBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:text="English For Tourism And Restaurants - Book 1 (Kèm Đĩa MP3)"
+        android:textColor="@color/black"
+        android:textSize="11sp"
+        tools:ignore="HardcodedText,RtlHardcoded,TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/statusBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:text="Tình trạng: Còn"
+        android:textColor="@color/black"
+        android:textSize="11sp"
+        tools:ignore="HardcodedText,InefficientWeight,RtlHardcoded,SpUsage,TextSizeCheck" />
+
+</LinearLayout>
