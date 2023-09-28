@@ -2,12 +2,25 @@ package edu.huflit.myapplication4.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+
+import edu.huflit.myapplication4.MainActivity;
 import edu.huflit.myapplication4.R;
 
 /**
@@ -62,5 +75,33 @@ public class CartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cart, container, false);
+    }
+    RecyclerView bookCartList;
+    Button borrowBtn;
+    TextView nofiMessage;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        GetIdPalletes(view);
+        SetPalletes();
+        nofiMessage.setEnabled(false);
+        nofiMessage.setVisibility(View.VISIBLE);
+    }
+
+    void GetIdPalletes(View view)
+    {
+        bookCartList = view.findViewById(R.id.cartitem);
+        borrowBtn = view.findViewById(R.id.borrowbutton);
+        nofiMessage = view.findViewById(R.id.message);
+    }
+
+    void SetPalletes()
+    {
+            borrowBtn.setOnClickListener(v -> BorrowBtn());
+    }
+
+    void BorrowBtn() {
+
+        nofiMessage.setVisibility(View.VISIBLE);
     }
 }

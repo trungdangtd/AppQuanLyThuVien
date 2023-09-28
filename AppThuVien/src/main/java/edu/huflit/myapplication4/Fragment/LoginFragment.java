@@ -2,12 +2,18 @@ package edu.huflit.myapplication4.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import edu.huflit.myapplication4.MainActivity;
 import edu.huflit.myapplication4.R;
 
 /**
@@ -63,4 +69,43 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
+    EditText accInput;
+    EditText passInput;
+    TextView loginBtn;
+    TextView forgotBtn;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        GetIDPalletes(view);
+        SetPalletes(view);
+    }
+
+    // Gọi các pallete có trong layout
+    void GetIDPalletes(View view)
+    {
+        accInput = view.findViewById(R.id.accountInput);
+        passInput = view.findViewById(R.id.passwordInput);
+        loginBtn = view.findViewById(R.id.Login);
+        forgotBtn = view.findViewById(R.id.Forgot);
+    }
+
+    // Gán chức năng cho các pallete
+    void SetPalletes(View view)
+    {
+        loginBtn.setOnClickListener(v -> Login(view));
+    }
+
+    void Login(View view)
+    {
+        if(TextUtils.isEmpty(accInput.getText().toString())) {
+            accInput.setError("Tài khoản không được để trống");
+            return;
+        }
+        if(TextUtils.isEmpty(passInput.getText().toString())) {
+            passInput.setError("Mật khẩu không được để trống");
+            return;
+        }
+
+    }
+
 }
