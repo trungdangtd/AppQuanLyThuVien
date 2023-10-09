@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#D6D6D6"
+    tools:context=".Fragment.LoginFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/edtthongtin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF0000"
+        android:text="Thông tin tài khoản"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        tools:ignore="HardcodedText" />
+
+    <ImageView
+        android:id="@+id/UserImg"
+        android:layout_width="match_parent"
+        android:layout_height="137dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/white"
+        android:src="@drawable/baseline_account_circle_24"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginHorizontal="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:text="Thông tin tài khoản"
+            android:textSize="18dp"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/chinhsua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Đổi mật khẩu"
+            android:textSize="18dp"
+            android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+            tools:ignore="HardcodedText,RtlHardcoded" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/black"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:text="Họ và tên"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/fullName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/roundedinput"
+                android:text="Nguyễn Mai Duy Phát"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText,LabelFor,TextFields,TouchTargetSizeCheck,VisualLintTextFieldSize"
+                android:importantForAutofill="no"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:text="Mã số sinh viên"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/cardId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/roundedinput"
+                android:text="21DH111370"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText,LabelFor,TextFields,TouchTargetSizeCheck,VisualLintTextFieldSize"
+                android:importantForAutofill="no"></TextView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:text="Hạn sử dụng thẻ"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/expirationDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/roundedinput"
+                android:text="09/09/2023"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText,LabelFor,TextFields,TouchTargetSizeCheck,VisualLintTextFieldSize"
+                android:importantForAutofill="no"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:text="Hiệu lực sử dụng thẻ"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/cardStatus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/roundedinput"
+                android:text="Sử dụng được"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText,LabelFor,TextFields,TouchTargetSizeCheck,VisualLintTextFieldSize"
+                android:importantForAutofill="no"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:text="Mật khẩu"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/passwordCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/roundedinput"
+                android:inputType="textPassword"
+                android:text="phattu03"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText,LabelFor,TouchTargetSizeCheck,VisualLintTextFieldSize"
+                android:importantForAutofill="no"></TextView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/sodiachi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:text="Sổ địa chỉ"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/xemthemsodiachi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Xem thêm"
+                android:textSize="16dp"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lichsumuahanb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:text="Lịch sử mua hàng"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/xemthemlichsu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Xem thêm"
+                android:textSize="16dp"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/sanphamyeuthich"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:text="Sản phẩm yêu thích"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/xemthemyeuthich7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Xem thêm"
+                android:textSize="16dp"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/vivoucher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:text="Ví voucher"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/xemthemvivoucher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Xem thêm"
+                android:textSize="16dp"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/hotro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:text="Hỗ trợ"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/xemthemhotro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Xem thêm"
+                android:textSize="16dp"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/Logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:shadowColor="@color/purple_700"
+        android:text="Đăng xuất"
+        android:layout_marginTop="20dp"
+        tools:ignore="HardcodedText,RtlHardcoded" />
+
+
+</LinearLayout>

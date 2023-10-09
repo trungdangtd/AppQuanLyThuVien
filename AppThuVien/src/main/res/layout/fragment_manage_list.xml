@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.ManageListFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#FF0000"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/baseline_arrow_back_24"
+                tools:ignore="ContentDescription,RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="30dp"
+                android:gravity="center"
+                android:text="Quản Lý"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,TextSizeCheck" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manageAccountBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:id="@+id/icManageAccount"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_1"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Quản lý tài khoản"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manageLibraryCardBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:id="@+id/icManageLibraryCard"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_4"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Quản lý thẻ thư viện"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manageLoanBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:id="@+id/icManageLoan"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_3"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Phiếu mượn"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manageCopyBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:id="@+id/icManageBookCopy"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_7"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Quản lý sách bản sao"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml,TextSizeCheck" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manageReportBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_7"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Thống kê chung"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/RegisterBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:id="@+id/icRegister"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_2"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Đăng ký"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/logoutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:id="@+id/icLogout"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/warning1"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Đăng Xuất"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/loadingScreens"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DCDBDA"
+        android:gravity="center"
+        android:text="Đang tải dữ liệu ..."
+        android:textAlignment="center"
+        android:textColor="#D84315"
+        android:textSize="36dp"
+        android:textStyle="italic"
+        tools:ignore="HardcodedText,SpUsage"></TextView>
+</FrameLayout>

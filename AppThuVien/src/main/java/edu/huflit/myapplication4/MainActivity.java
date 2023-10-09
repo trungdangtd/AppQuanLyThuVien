@@ -14,6 +14,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
+import edu.huflit.myapplication4.Entity.Book;
+import edu.huflit.myapplication4.Fragment.AccountFragment;
 import edu.huflit.myapplication4.Fragment.CartFragment;
 import edu.huflit.myapplication4.Fragment.HomePageFragment;
 import edu.huflit.myapplication4.Fragment.LoginFragment;
@@ -21,15 +23,16 @@ import edu.huflit.myapplication4.Fragment.NotificationFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static Context instance;
-
+    // Singleton
+    public static MainActivity instance;
+    // Tên của Pallete
     public BottomNavigationView menuBNV;
     // Other
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     public Fragment currentFragment;
 
-
+    public ArrayList<Book> bookCart;
     public int amount = 0;
     public static final int maxAmount = 3;
     public Boolean isLogin;
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        bookCart = new ArrayList<>();
         isLogin = false;
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if(instance == null)
             instance = this;
-
+        BookstoreProjectDatabase.ConnectToFirestoreDB();
         GetIDPalletes();
         SetPalletes();
         ReplaceFragment(R.id.home);
@@ -81,10 +84,17 @@ public class MainActivity extends AppCompatActivity {
                 currentFragment = new HomePageFragment();
                 break;
             case R.id.account:
-                currentFragment = new LoginFragment();
+                if(!isLogin)
+                    currentFragment = new LoginFragment();
+                else {
+                    if( BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
+                        currentFragment = new AccountFragment();
+                    else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ kho")  || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
+                        currentFragment = new AccountFragment();// đang làm ở đây
+                }
                 break;
             case R.id.suggest:
-
+                // chưa làm
                 break;
             case R.id.nofi:
                 currentFragment = new NotificationFragment();
