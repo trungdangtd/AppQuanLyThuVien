@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="310dp"
+    android:layout_height="wrap_content"
+    android:background="#68E6E6"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Bạn chọn cái nào?"
+        tools:ignore="HardcodedText" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/updateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="#FF7700"
+            android:text="Sửa"
+            android:textColor="#FFFF00"
+            android:textSize="14sp"
+            tools:ignore="ButtonStyle,HardcodedText,TextSizeCheck,TextContrastCheck"></Button>
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="#FF7700"
+            android:text="Xóa"
+            android:textColor="#FF0000"
+            android:textSize="14dp"
+            tools:ignore="ButtonStyle,HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck,TextContrastCheck"></Button>
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="#FF7700"
+            android:text="Thoát"
+            android:textColor="#FF0000"
+            android:textSize="14dp"
+            tools:ignore="ButtonStyle,HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck,TextContrastCheck"></Button>
+    </LinearLayout>
+</LinearLayout>

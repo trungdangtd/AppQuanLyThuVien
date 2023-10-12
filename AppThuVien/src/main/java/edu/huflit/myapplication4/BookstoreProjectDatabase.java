@@ -25,6 +25,7 @@ import edu.huflit.myapplication4.Entity.Genre;
 import edu.huflit.myapplication4.Entity.LibraryCard;
 import edu.huflit.myapplication4.Entity.Loan;
 import edu.huflit.myapplication4.Fragment.AccountFragment;
+import edu.huflit.myapplication4.Fragment.ManageListFragment;
 
 public class BookstoreProjectDatabase {
     private static final String BOOK = "Book"; // Tên bảng
@@ -73,6 +74,59 @@ public class BookstoreProjectDatabase {
     }
 
     public static ArrayList<Book> booksAfterSorted;
+    // Tải sách
+    public static void LoadBooksSortedWithCopies()
+    {
+        ArrayList<Tuple<String, Integer>> booksBeforeSorted = new ArrayList<>();
+        booksAfterSorted = new ArrayList<>();
+        for (Book book : books)
+        {
+            Task<QuerySnapshot> copyIds = copyCollectionRef.document(book.getId()).collection("BookCopy").get();
+            while (true)
+            {
+                if (copyIds.isSuccessful())
+                {
+                    int i = 0;
+                    for (DocumentSnapshot id : copyIds.getResult())
+                    {
+                        if (id.getString("Status").equals("Cho mượn"))
+                        {
+                            i++;
+                        }
+                    }
+                    booksBeforeSorted.add(new Tuple<>(book.getId(), i));
+                    break;
+                }
+            }
+        }
+
+
+        for(int i = 0; i < booksBeforeSorted.size() - 1; i++)
+        {
+            for(int j = i + 1; j < booksBeforeSorted.size(); j++)
+            {
+                if (booksBeforeSorted.get(i).y < booksBeforeSorted.get(j).y)
+                {
+                    Tuple<String, Integer> temp = booksBeforeSorted.get(i);
+                    booksBeforeSorted.set(i, booksBeforeSorted.get(j));
+                    booksBeforeSorted.set(j, temp);
+                }
+            }
+        }
+
+        for(Tuple<String, Integer> tuple : booksBeforeSorted)
+        {
+            for (Book book : books)
+            {
+                if(tuple.x.equals(book.getId()))
+                {
+                    booksAfterSorted.add(book);
+                    break;
+                }
+            }
+        }
+    }
+
     // Tải thể loại
     public static void LoadGenre()
     {
@@ -126,6 +180,111 @@ public class BookstoreProjectDatabase {
         }
     }
 
+    // tải các bản sao của sách
+    public static void LoadCopies()
+    {
+        copies = new ArrayList<>();
+
+        for(Book book : books)
+        {
+            Task<QuerySnapshot> copyIds = copyCollectionRef.document(book.getId()).collection("BookCopy").get();
+            while(true) {
+                if (copyIds.isSuccessful()) {
+                    for (DocumentSnapshot copy : copyIds.getResult()) {
+                        copies.add(new Copy(copy.getId(),
+                                book.getId(),
+                                copy.getString("Status"),
+                                copy.getString("Notes")));
+                        System.out.println("Copy id " + copy.getId() + ", book id " + book.getId());
+                    }
+                    break;
+                }
+            }
+        }
+
+
+        System.out.println("Size copies LoadCopies: " + BookstoreProjectDatabase.copies.size());
+    }
+
+    public static ArrayList<Copy> LoadCopiesWithBookId(@NonNull String bookId, @NonNull String status)
+    {
+        ArrayList<Copy> copyArrayList = new ArrayList<>();
+
+        Task<QuerySnapshot> copyIds = copyCollectionRef.document(bookId).collection("BookCopy").get();
+        while(true) {
+            if (copyIds.isSuccessful()) {
+                for (DocumentSnapshot id : copyIds.getResult()) {
+                    if (id.getString("Status").equals(status)) {
+                        copyArrayList.add(new Copy(id.getId(),
+                                bookId,
+                                id.getString("Status"),
+                                id.getString("Notes")));
+                    }
+                    else if(TextUtils.isEmpty(status))
+                    {
+                        copyArrayList.add(new Copy(id.getId(),
+                                bookId,
+                                id.getString("Status"),
+                                id.getString("Notes")));
+                    }
+                }
+                return copyArrayList;
+            }
+        }
+    }
+
+    // Tải sách với bản sao mà sách có tên chứa ký tự tìm kiếm
+    public static void SearchBook(@NonNull String name)
+    {
+        books = new ArrayList<>();
+        String content = "";
+        ArrayList<String> nameKey = new ArrayList<>();
+        for (int i = 0 ; i < name.length(); i++) {
+            nameKey.add(String.valueOf(name.indexOf(i)));
+        }
+        Task<QuerySnapshot> bookIds = bookCollectionRef.get();//"\uf8ff"
+        while(true) {
+            if (bookIds.isSuccessful()) {
+                for (DocumentSnapshot id : bookIds.getResult()) {
+                    if (id.getString("Name").toLowerCase().contains(name.toLowerCase())) {
+                        content ="";
+                        for (String arCon : (List<String>) id.get("Content")) {
+                            content += arCon + "\n";
+                        }
+                        books.add(new Book(id.getId(),
+                                id.getString("Name"),
+                                id.getString("Author"),
+                                id.getString("Genre"),
+                                content,
+                                id.getString("YearPublished"),
+                                id.getString("Publisher"),
+                                id.getString("URL")));
+                        System.out.println("Book name " + id.getId() + " : " + id.getString("Name"));
+                    }
+                }
+                break;
+            }
+        }
+
+        copies = new ArrayList<>();
+
+        for(Book book : books)
+        {
+            Task<QuerySnapshot> copyIds = copyCollectionRef.document(book.getId()).collection("BookCopy").get();
+            while(true) {
+                if (copyIds.isSuccessful()) {
+                    for (DocumentSnapshot copy : copyIds.getResult()) {
+                        copies.add(new Copy(copy.getId(),
+                                book.getId(),
+                                copy.getString("Status"),
+                                copy.getString("Notes")));
+                        System.out.println("Copy id " + copy.getId() + ", book id " + book.getId());
+                    }
+                    break;
+                }
+            }
+        }
+    }
 
     // Tải sách theo thể loại
     public static void LoadBooksWithGenre(@NonNull String genreName)
@@ -184,34 +343,28 @@ public class BookstoreProjectDatabase {
         {
             if(accountName.isSuccessful())
             {
-                if(accountName.getResult().size() != 0) {
-                    for (DocumentSnapshot name : accountName.getResult())
-                        if (name.getString("Password").equals(password)) {
+                System.out.println("accountName.getResult().size(): " + accountName.getResult().size());
+                if(accountName.getResult().size() > 0) {
+                    for (DocumentSnapshot name : accountName.getResult()) {
+                        if (name.getString("Password").equals(password) && !name.getBoolean("isLogin")) {
                             accountInfo = new Account(name.getString("Account"), name.getString("Password"), name.getString("Role"));
-                            if(accountInfo.getRole().equals("Sinh viên"))
-                            {
-                                if(!name.getBoolean("isLogin"))
-                                    accountCollectionRef.document(account).update("isLogin", true);
-                                else
-                                {
-                                    accountInfo = new Account();
-                                    Snackbar.make(view, "Tài khoản hoặc mật khẩu bị sai", Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
-                                    return;
-                                }
-                            }
+                            accountCollectionRef.document(account).update("isLogin", true);
+                            System.out.println("accountInfo.getRole(): " + accountInfo.getRole());
+                            break;
                         }
+                    }
                     if(TextUtils.isEmpty(accountInfo.getAccount()))
                     {
                         Snackbar.make(view, "Tài khoản hoặc mật khẩu bị sai", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
+                    break;
                 }
-                else {
+                if(accountName.getResult().size() == 0) {
                     Snackbar.make(view, "Tài khoản hoặc mật khẩu bị sai", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                    break;
                 }
-                break;
             }
         }
         if(!TextUtils.isEmpty(accountInfo.getRole())) {
@@ -219,13 +372,13 @@ public class BookstoreProjectDatabase {
                 Task<QuerySnapshot> libraryCardInfo = libraryCardCollectionRef.whereEqualTo("Id", accountInfo.getAccount()).get();
                 while (true) {
                     if (libraryCardInfo.isSuccessful()) {
-                        for (DocumentSnapshot idCart : libraryCardInfo.getResult())
+                        for (DocumentSnapshot idCart : libraryCardInfo.getResult()) {
                             libraryCard = new LibraryCard(accountInfo.getAccount(),
                                     idCart.getString("Name"),
                                     idCart.getString("ExpirationDate"),
                                     idCart.getBoolean("Status"),
                                     idCart.getBoolean("Borrow"));
-
+                        }
                         Snackbar.make(view, "Đăng nhập thành công", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         MainActivity.instance.currentFragment = new AccountFragment();
@@ -235,9 +388,9 @@ public class BookstoreProjectDatabase {
                     }
                 }
             }
-            else if(accountInfo.getRole().equals("Quản lý") || accountInfo.getRole().equals("Thủ kho") || accountInfo.getRole().equals("Thủ thư"))
+            else if(accountInfo.getRole().equals("Quản lý") || accountInfo.getRole().equals("Thủ kho") || accountInfo.getRole().equals("Thủ thư"))
             {
-                //MainActivity.instance.currentFragment = new ManageListFragment();
+                MainActivity.instance.currentFragment = new ManageListFragment();
                 MainActivity.instance.ReplaceFragment(-1);
                 MainActivity.instance.isLogin = true;
             }
@@ -603,7 +756,6 @@ public class BookstoreProjectDatabase {
 
         bookCollectionRef.document(book.getId()).set(newBook);
         System.out.println("Thêm sách thành công: " + newBook);
-
     }
 
     // cập nhập sách - Manager
@@ -781,5 +933,14 @@ public class BookstoreProjectDatabase {
         accountCollectionRef.document(nameAccount).delete();
     }
 
+}
+
+class Tuple<X, Y> {
+    public final X x;
+    public final Y y;
+    public Tuple(X x, Y y) {
+        this.x = x;
+        this.y = y;
+    }
 }
 
