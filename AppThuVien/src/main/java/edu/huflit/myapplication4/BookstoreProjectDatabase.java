@@ -74,58 +74,8 @@ public class BookstoreProjectDatabase {
     }
 
     public static ArrayList<Book> booksAfterSorted;
-    // Tải sách
-    public static void LoadBooksSortedWithCopies()
-    {
-        ArrayList<Tuple<String, Integer>> booksBeforeSorted = new ArrayList<>();
-        booksAfterSorted = new ArrayList<>();
-        for (Book book : books)
-        {
-            Task<QuerySnapshot> copyIds = copyCollectionRef.document(book.getId()).collection("BookCopy").get();
-            while (true)
-            {
-                if (copyIds.isSuccessful())
-                {
-                    int i = 0;
-                    for (DocumentSnapshot id : copyIds.getResult())
-                    {
-                        if (id.getString("Status").equals("Cho mượn"))
-                        {
-                            i++;
-                        }
-                    }
-                    booksBeforeSorted.add(new Tuple<>(book.getId(), i));
-                    break;
-                }
-            }
-        }
+    // Tải sách xu hướng
 
-
-        for(int i = 0; i < booksBeforeSorted.size() - 1; i++)
-        {
-            for(int j = i + 1; j < booksBeforeSorted.size(); j++)
-            {
-                if (booksBeforeSorted.get(i).y < booksBeforeSorted.get(j).y)
-                {
-                    Tuple<String, Integer> temp = booksBeforeSorted.get(i);
-                    booksBeforeSorted.set(i, booksBeforeSorted.get(j));
-                    booksBeforeSorted.set(j, temp);
-                }
-            }
-        }
-
-        for(Tuple<String, Integer> tuple : booksBeforeSorted)
-        {
-            for (Book book : books)
-            {
-                if(tuple.x.equals(book.getId()))
-                {
-                    booksAfterSorted.add(book);
-                    break;
-                }
-            }
-        }
-    }
 
     // Tải thể loại
     public static void LoadGenre()
@@ -368,7 +318,7 @@ public class BookstoreProjectDatabase {
             }
         }
         if(!TextUtils.isEmpty(accountInfo.getRole())) {
-            if(accountInfo.getRole().equals("Sinh viên")) {
+            if(accountInfo.getRole().equals("Sinh Viên")) {
                 Task<QuerySnapshot> libraryCardInfo = libraryCardCollectionRef.whereEqualTo("Id", accountInfo.getAccount()).get();
                 while (true) {
                     if (libraryCardInfo.isSuccessful()) {
@@ -384,15 +334,17 @@ public class BookstoreProjectDatabase {
                         MainActivity.instance.currentFragment = new AccountFragment();
                         MainActivity.instance.ReplaceFragment(-1);
                         MainActivity.instance.isLogin = true;
+                        System.out.println("chuyển trang " + accountInfo.getRole());
                         break;
                     }
                 }
             }
-            else if(accountInfo.getRole().equals("Quản lý") || accountInfo.getRole().equals("Thủ kho") || accountInfo.getRole().equals("Thủ thư"))
+            else if(accountInfo.getRole().equals("Quản lý"))
             {
                 MainActivity.instance.currentFragment = new ManageListFragment();
                 MainActivity.instance.ReplaceFragment(-1);
                 MainActivity.instance.isLogin = true;
+                System.out.println("chuyển trang " + accountInfo.getRole());
             }
         }
     }

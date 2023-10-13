@@ -55,15 +55,6 @@ public class ManageListFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -83,10 +74,6 @@ public class ManageListFragment extends Fragment {
         loadingScreen.setEnabled(false);
         quitBtn.setEnabled(true);
         registerBtn.setEnabled(true);
-        copybookBtn.setEnabled(true);
-        libraryBtn.setEnabled(true);
-        loanBtn.setEnabled(true);
-        reportBtn.setEnabled(true);
     }
 
 
@@ -111,31 +98,19 @@ public class ManageListFragment extends Fragment {
         else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ kho"))
         {
 
-            loanBtn.setVisibility(View.GONE);
-            loanBtn.setEnabled(false);
-
             registerBtn.setVisibility(View.GONE);
             registerBtn.setEnabled(false);
 
             accountBtn.setVisibility(View.GONE);
             accountBtn.setEnabled(false);
 
-            libraryBtn.setVisibility(View.GONE);
-            libraryBtn.setEnabled(false);
-
-            reportBtn.setVisibility(View.GONE);
-            reportBtn.setEnabled(false);
         }
         else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
         {
             accountBtn.setOnClickListener(v -> AccountBtn());
             registerBtn.setOnClickListener(v -> RegisterBtn());
 
-            copybookBtn.setVisibility(View.GONE);
-            copybookBtn.setEnabled(false);
 
-            reportBtn.setVisibility(View.GONE);
-            reportBtn.setEnabled(false);
         }
         quitBtn.setOnClickListener(v -> QuitBtn());
     }
@@ -145,13 +120,8 @@ public class ManageListFragment extends Fragment {
         loadingScreen.setVisibility(View.VISIBLE);
         quitBtn.setEnabled(false);
         registerBtn.setEnabled(false);
-        copybookBtn.setEnabled(false);
-        libraryBtn.setEnabled(false);
-        loanBtn.setEnabled(false);
-        reportBtn.setEnabled(false);
     }
 
-    //Copy book
 
     void AccountBtn()
     {
@@ -177,8 +147,5 @@ public class ManageListFragment extends Fragment {
 
     }
 
-    //libraryCard
-
-    //Loan
 
 }

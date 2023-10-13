@@ -92,13 +92,12 @@ public class HomePageFragment extends Fragment implements TextWatcher {
     TextView watchMoreBtn;
     ImageView genreListBtn;
     AutoCompleteTextView searchBar_ACTV;
-    RecyclerView bookList, bookTopReadList;
+    RecyclerView bookList;
     FloatingActionButton addBookBtn;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         BookstoreProjectDatabase.LoadBooks();
         MainActivity.instance.menuBNV.setVisibility(View.VISIBLE);
         MainActivity.instance.menuBNV.setEnabled(true);
@@ -112,7 +111,7 @@ public class HomePageFragment extends Fragment implements TextWatcher {
         searchBar_ACTV = (AutoCompleteTextView)view.findViewById(R.id.myautocomplete);
         sliderView = view.findViewById(R.id.slider);
 
-        bookList = view.findViewById(R.id.BookList);
+        bookList = view.findViewById(R.id.Book_List);
         watchMoreBtn = view.findViewById(R.id.WatchMore);
 
         genreListBtn = view.findViewById(R.id.GenreListBtn);
@@ -159,23 +158,16 @@ public class HomePageFragment extends Fragment implements TextWatcher {
         MainActivity.instance.ReplaceFragment(-1);
     }
 
-    void LoadBookList()
-    {
+    void LoadBookList() {
         ArrayList<Book> randomBooks = new ArrayList<>();
-        for(int i = 0; i < 10; i++)
+        for(int i = 1; i < 5; i++)
             randomBooks.add(BookstoreProjectDatabase.books.get(i));
 
         bookList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.HORIZONTAL, false));
         bookList.setAdapter(new BookAdapter(getActivity().getApplicationContext(), randomBooks));
-        BookstoreProjectDatabase.LoadBooksSortedWithCopies();
-        ArrayList<Book> randomTopReadBooks = new ArrayList<>();
-        for(int i = 0; i < 10; i++)
-            randomTopReadBooks.add(BookstoreProjectDatabase.booksAfterSorted.get(i));
-
-        bookTopReadList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.HORIZONTAL, false));
-        bookTopReadList.setAdapter(new BookAdapter(getActivity().getApplicationContext(), randomTopReadBooks));
+        //sách xu hướng ??
     }
-
+    //sreach bar để ở đây
 
     // Hiển thị quảng cáo chạy bằng slider
     void AdsSlider()

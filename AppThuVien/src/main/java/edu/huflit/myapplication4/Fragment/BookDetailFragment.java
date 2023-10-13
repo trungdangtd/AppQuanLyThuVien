@@ -141,7 +141,6 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
         homeBtn.setOnClickListener(v -> BackToHome());
         cartBtn.setOnClickListener(v -> BackToCart());
         watchMoreBtn.setOnClickListener(v -> WatchMoreBtn());
-        SearchBar();
 
         if(!book.getUrlImage().equals("Unknown"))
         {
@@ -230,20 +229,6 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
     {
         MainActivity.instance.currentFragment = new BookListFragment("", bookGenre.getText().toString());
         MainActivity.instance.ReplaceFragment(-1);
-    }
-    void SearchBar()
-    {
-        searchBar_ACTV.addTextChangedListener(this);
-        searchBar_ACTV.setAdapter(new ArrayAdapter<>(MainActivity.instance, android.R.layout.simple_dropdown_item_1line, BookstoreProjectDatabase.bookName));
-        searchBar_ACTV.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                MainActivity.instance.currentFragment = new BookListFragment(searchBar_ACTV.getText().toString(), "");
-                MainActivity.instance.ReplaceFragment(-1);
-                searchBar_ACTV.setText("");
-                return true;
-            }
-            return false;
-        });
     }
 
     @Override

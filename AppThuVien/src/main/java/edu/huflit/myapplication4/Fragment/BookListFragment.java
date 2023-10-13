@@ -63,6 +63,9 @@ public class BookListFragment extends Fragment implements TextWatcher {
         if(TextUtils.isEmpty(keyword) && TextUtils.isEmpty(genreName)) {
             BookstoreProjectDatabase.LoadBooks();
         }
+        else if(!TextUtils.isEmpty(keyword) && TextUtils.isEmpty(genreName)){
+            BookstoreProjectDatabase.SearchBook(keyword);
+        }
         else if(TextUtils.isEmpty(keyword) && !TextUtils.isEmpty(genreName))
         {
             BookstoreProjectDatabase.LoadBooksWithGenre(genreName);
@@ -72,6 +75,7 @@ public class BookListFragment extends Fragment implements TextWatcher {
         MainActivity.instance.menuBNV.setVisibility(View.GONE);
         MainActivity.instance.menuBNV.setEnabled(false);
     }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -127,7 +131,6 @@ public class BookListFragment extends Fragment implements TextWatcher {
 
     void GetIDPalletes(View view)
     {
-        searchBar_ACTV = (AutoCompleteTextView)view.findViewById(R.id.myautocomplete);
         bookListRV = view.findViewById(R.id.BookList);
         backBtn = view.findViewById(R.id.backBtn);
         nofiMessage = view.findViewById(R.id.message);
@@ -137,8 +140,9 @@ public class BookListFragment extends Fragment implements TextWatcher {
 
     void SetPalletes(View view)
     {
+        sortTitle.setText("Chưa chọn sắp xếp");
         backBtn.setOnClickListener(v -> BackToPage());
-        //SearchBar();
+
     }
 
     void LoadBookList()
@@ -152,23 +156,7 @@ public class BookListFragment extends Fragment implements TextWatcher {
         getFragmentManager().popBackStack();
     }
 
-    void SearchBar()
-    {
-        searchBar_ACTV.addTextChangedListener(this);
-        searchBar_ACTV.setAdapter(new ArrayAdapter<String>(MainActivity.instance, android.R.layout.simple_dropdown_item_1line, BookstoreProjectDatabase.bookName));
-        searchBar_ACTV.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    MainActivity.instance.currentFragment = new BookListFragment(searchBar_ACTV.getText().toString(), "");
-                    MainActivity.instance.ReplaceFragment(-1);
-                    searchBar_ACTV.setText("");
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
+    //sreach bar để ở đây
 
 
     @Override
@@ -184,12 +172,6 @@ public class BookListFragment extends Fragment implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
 
-    }
-
-    @NonNull
-    @Override
-    public CreationExtras getDefaultViewModelCreationExtras() {
-        return super.getDefaultViewModelCreationExtras();
     }
 
     //sreach

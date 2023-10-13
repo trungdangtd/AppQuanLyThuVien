@@ -44,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bookCart = new ArrayList<>();
         isLogin = false;
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+//        if (android.os.Build.VERSION.SDK_INT > 9) {
+//            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//            StrictMode.setThreadPolicy(policy);
+//        }
         if(instance == null)
             instance = this;
         BookstoreProjectDatabase.ConnectToFirestoreDB();
@@ -90,13 +90,13 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     if( BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
                         currentFragment = new AccountFragment();
-                    else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
-                        currentFragment = new ManageListFragment();// đang làm ở đây
+                    else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
+                        currentFragment = new ManageListFragment();
                 }
                 break;
             case R.id.suggest:
-                // chưa làm
-                break;
+//                currentFragment = new SuggestFragment();
+//                break;
             case R.id.nofi:
                 currentFragment = new NotificationFragment();
                 break;
@@ -112,5 +112,4 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(currentFragment.toString());
         fragmentTransaction.commitAllowingStateLoss();
     }
-
 }
