@@ -89,29 +89,10 @@ public class ManageListFragment extends Fragment {
     // Gán chức năng cho các pallete
     void SetPalletes(View view)
     {
-        if (BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
-        {
+
             registerBtn.setOnClickListener(v -> RegisterBtn());
             accountBtn.setOnClickListener(v -> AccountBtn());
 
-        }
-        else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ kho"))
-        {
-
-            registerBtn.setVisibility(View.GONE);
-            registerBtn.setEnabled(false);
-
-            accountBtn.setVisibility(View.GONE);
-            accountBtn.setEnabled(false);
-
-        }
-        else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
-        {
-            accountBtn.setOnClickListener(v -> AccountBtn());
-            registerBtn.setOnClickListener(v -> RegisterBtn());
-
-
-        }
         quitBtn.setOnClickListener(v -> QuitBtn());
     }
 
@@ -120,6 +101,7 @@ public class ManageListFragment extends Fragment {
         loadingScreen.setVisibility(View.VISIBLE);
         quitBtn.setEnabled(false);
         registerBtn.setEnabled(false);
+
     }
 
 

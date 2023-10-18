@@ -99,6 +99,7 @@ public class AccountFragment extends Fragment {
     // Gán chức năng cho các pallete
     void SetPalletes(View view)
     {
+        updateAccountBtn.setOnClickListener(v -> ChangePassword());
         logoutBtn.setOnClickListener(v -> LogoutBtn());
 
         if(BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên")) {
@@ -118,7 +119,11 @@ public class AccountFragment extends Fragment {
         passwordCardUser.setText(BookstoreProjectDatabase.accountInfo.getPassword());
     }
 
-
+    void ChangePassword()
+    {
+        MainActivity.instance.currentFragment = new ForgotPasswordFragment(BookstoreProjectDatabase.accountInfo.getAccount());
+        MainActivity.instance.ReplaceFragment(-1);
+    }
     void LogoutBtn()
     {
         if(BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))

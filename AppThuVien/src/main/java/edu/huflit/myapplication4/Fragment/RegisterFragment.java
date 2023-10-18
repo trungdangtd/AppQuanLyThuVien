@@ -108,20 +108,13 @@ public class RegisterFragment extends Fragment {
     // Gán chức năng cho các pallete
     void SetPalletes(View view)
     {
-        if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
-        {
-            nameInput.setVisibility(View.GONE);
-            nameInput.setEnabled(false);
-            RoleInput();
-        }
-        else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
-        {
-            roleSpin.setVisibility(View.GONE);
-            roleSpin.setEnabled(false);
 
-            roleText.setVisibility(View.GONE);
-            roleText.setEnabled(false);
-        }
+        roleSpin.setVisibility(View.GONE);
+        roleSpin.setEnabled(false);
+
+        roleText.setVisibility(View.GONE);
+        roleText.setEnabled(false);
+
         registerBtn.setOnClickListener(v -> RegisterBtn());
         logoutBtn.setOnClickListener(v -> QuitBtn());
 
@@ -135,16 +128,9 @@ public class RegisterFragment extends Fragment {
 
     void RegisterBtn()
     {
-        if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
-        {
-            if(TextUtils.isEmpty(accountInput.getText().toString()))
+            if (TextUtils.isEmpty(accountInput.getText().toString()))
                 accountInput.setError("Tài khoản không được để trống");
-            BookstoreProjectDatabase.AddAccount(new Account(accountInput.getText().toString(), accountInput.getText().toString(), roleSpin.getSelectedItem().toString()));
-        }
-        else {
-            if(TextUtils.isEmpty(accountInput.getText().toString()))
-                accountInput.setError("Tài khoản không được để trống");
-            else if(TextUtils.isEmpty(nameInput.getText().toString()))
+            else if (TextUtils.isEmpty(nameInput.getText().toString()))
                 nameInput.setError("Tên không được để trống");
 
             Calendar currentCal = Calendar.getInstance();
@@ -152,19 +138,18 @@ public class RegisterFragment extends Fragment {
             currentCal.add(Calendar.DATE, 1095);
             String toDate = dateFormat.format(currentCal.getTime());
 
-            if(BookstoreProjectDatabase.AddAccount(new Account(accountInput.getText().toString(), accountInput.getText().toString(), "Sinh viên")))
+            if (BookstoreProjectDatabase.AddAccount(new Account(accountInput.getText().toString(), accountInput.getText().toString(), "Sinh viên")))
                 BookstoreProjectDatabase.AddLibraryCard(new LibraryCard(accountInput.getText().toString(), nameInput.getText().toString(), toDate, true, false));
-        }
         MainActivity.instance.currentFragment = new ManageListFragment();
         MainActivity.instance.ReplaceFragment(-1);
     }
 
-    void RoleInput()
-    {
-        String[] roles = {"Thủ thư", "Thủ kho"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.instance, android.R.layout.simple_spinner_dropdown_item, roles);
-        //set the spinners adapter to the previously created one.
-        roleSpin.setAdapter(adapter);
-    }
+//    void RoleInput()
+//    {
+//        String[] roles = {"Thủ thư", "Thủ kho"};
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.instance, android.R.layout.simple_spinner_dropdown_item, roles);
+//        //set the spinners adapter to the previously created one.
+//        roleSpin.setAdapter(adapter);
+//    }
 }

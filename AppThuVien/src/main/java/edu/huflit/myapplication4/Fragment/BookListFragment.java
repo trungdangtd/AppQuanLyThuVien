@@ -109,9 +109,8 @@ public class BookListFragment extends Fragment implements TextWatcher {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_book_list, container, false);
     }
-    AutoCompleteTextView searchBar_ACTV;
     RecyclerView bookListRV;
-    ImageView backBtn, sortBtn;
+    ImageView backBtn;
     TextView nofiMessage, sortTitle;
 
     @Override
@@ -121,12 +120,12 @@ public class BookListFragment extends Fragment implements TextWatcher {
         SetPalletes(view);
         LoadBookList();
 
-        nofiMessage.setEnabled(false);
-        if(books.size() == 0) {
-            nofiMessage.setVisibility(View.VISIBLE);
-        }
-        else
-            nofiMessage.setVisibility(View.INVISIBLE);
+//        nofiMessage.setEnabled(false);
+//        if(books.size() == 0) {
+//            nofiMessage.setVisibility(View.VISIBLE);
+//        }
+//        else
+//            nofiMessage.setVisibility(View.INVISIBLE);
     }
 
     void GetIDPalletes(View view)
@@ -134,13 +133,10 @@ public class BookListFragment extends Fragment implements TextWatcher {
         bookListRV = view.findViewById(R.id.BookList);
         backBtn = view.findViewById(R.id.backBtn);
         nofiMessage = view.findViewById(R.id.message);
-        sortBtn = view.findViewById(R.id.sortBtn);
-        sortTitle = view.findViewById(R.id.sortTitle);
     }
 
     void SetPalletes(View view)
     {
-        sortTitle.setText("Chưa chọn sắp xếp");
         backBtn.setOnClickListener(v -> BackToPage());
 
     }

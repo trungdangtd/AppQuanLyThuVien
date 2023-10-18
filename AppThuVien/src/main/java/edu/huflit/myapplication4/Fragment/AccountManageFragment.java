@@ -83,7 +83,7 @@ public class AccountManageFragment extends Fragment {
     TextView nameAc;
     RecyclerView acmanageIt;
     ImageView backBtn;
-    AutoCompleteTextView searchBar_ACTV;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -96,7 +96,7 @@ public class AccountManageFragment extends Fragment {
 
     void GetIDPalletes(View view)
     {
-        searchBar_ACTV = (AutoCompleteTextView)view.findViewById(R.id.myautocomplete);
+
         backBtn = view.findViewById(R.id.backBtn);
         roleAc=view.findViewById(R.id.roleac);
         passwordAc=view.findViewById(R.id.passwordAc);
@@ -113,7 +113,6 @@ public class AccountManageFragment extends Fragment {
     {
         backBtn.setOnClickListener(v -> BackBtn());
         LoadAccountManage();
-        SearchBar();
     }
 
     void BackBtn()
@@ -121,21 +120,5 @@ public class AccountManageFragment extends Fragment {
         getFragmentManager().popBackStack();
     }
 
-    void SearchBar()
-    {
-        searchBar_ACTV.addTextChangedListener((TextWatcher) this);
-        searchBar_ACTV.setAdapter(new ArrayAdapter<String>(MainActivity.instance, android.R.layout.simple_dropdown_item_1line, BookstoreProjectDatabase.accNames));
-        searchBar_ACTV.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    BookstoreProjectDatabase.LoadAccountWithId("Sinh viên", searchBar_ACTV.getText().toString());
-                    acmanageIt.setAdapter(new AccountAdapter(getActivity().getApplicationContext(), BookstoreProjectDatabase.accounts));
-                    searchBar_ACTV.setText("");
-                    return true;
-                }
-                return false;
-            }
-        });
+
     }
-}
