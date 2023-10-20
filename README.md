@@ -31,7 +31,7 @@
 - Một thư viện học thuật có thể sử dụng ứng dụng để theo dõi các tài liệu tham khảo được sử dụng bởi sinh viên và giảng viên.
 💡Ứng dụng quản lý thư viện Java là một công cụ có giá trị cho các thư viện ở mọi quy mô. Ứng dụng này có thể giúp các thư viện cải thiện hiệu quả và hiệu quả của họ, đồng thời cung cấp cho người dùng trải nghiệm tốt hơn.
 
-## 🧑‍🦱GIới thiệu thành viên🧔
+## 🧔GIới thiệu thành viên🧔
 | Họ và Tên        | Mã Sinh Viên | Chức Vụ | GitHub |
 | ---------------- | ------------ | ------------ | ------------ |
 | Hoàng Anh        | 21DH113434   | Scrum Master| nhoxlovew |
