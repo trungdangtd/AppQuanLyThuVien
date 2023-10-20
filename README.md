@@ -38,6 +38,8 @@
 | Lê Nguyễn Hoàng Long   | 21DH113434   | Dev| LeNguyenHoangLong |
 ## Công cụ hỗ trợ
 
+<p align="left"> <a href="https://developer.android.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original-wordmark.svg" alt="android" width="40" height="40"/> </a> <a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="firebase" width="40" height="40"/> </a> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> </p>
+
 ## Các tính năng sẽ được cập nhật trong tương lai
 Nhìn chung chúng em cũng đã đi được một nửa chặng đường của đồ án và hoàn thành các Story ở mạt dạt và tốt cũng như vẫn còn đó các chức năng vẫn và đang trong quá trình thực hiện, cãi tiến trong tương lai gần
 
