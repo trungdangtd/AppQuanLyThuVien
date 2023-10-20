@@ -1,4 +1,4 @@
-![image](https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3/assets/144097415/48d3717d-07d0-4a18-be3a-edb8522c776f)![image](https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3/assets/144097415/0f594d4c-0f9e-4481-a321-09f6894aea03)# ỨNG DỤNG QUẢN LÝ THƯ VIỆN
+# 📘ỨNG DỤNG QUẢN LÝ THƯ VIỆN📖
 <h1 align="center">
     <img src="https://readme-typing-svg.herokuapp.com/?font=Righteous&size=35&center=true&vCenter=true&width=500&height=70&duration=4000&lines=Xin+Chào+Mọi+Người!+👋;📘+Đến+Với+App+Quản+Lý+Thư+Viện!+📖"/>
 </h1>
@@ -31,7 +31,7 @@
 - Một thư viện học thuật có thể sử dụng ứng dụng để theo dõi các tài liệu tham khảo được sử dụng bởi sinh viên và giảng viên.
 💡Ứng dụng quản lý thư viện Java là một công cụ có giá trị cho các thư viện ở mọi quy mô. Ứng dụng này có thể giúp các thư viện cải thiện hiệu quả và hiệu quả của họ, đồng thời cung cấp cho người dùng trải nghiệm tốt hơn.
 
-## GIới thiệu thành viên
+## 🧑‍🦱GIới thiệu thành viên🧔
 | Họ và Tên        | Mã Sinh Viên | Chức Vụ | GitHub |
 | ---------------- | ------------ | ------------ | ------------ |
 | Hoàng Anh        | 21DH113434   | Scrum Master| nhoxlovew |
