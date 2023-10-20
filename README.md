@@ -3,7 +3,7 @@
     <img src="https://readme-typing-svg.herokuapp.com/?font=Righteous&size=35&center=true&vCenter=true&width=500&height=70&duration=4000&lines=Xin+Chào+Mọi+Người!+👋;📘+Đến+Với+App+Quản+Lý+Thư+Viện!+📖"/>
 </h1>
 
-[![MasterHead]
+[![MasterHead](https://cdn.dribbble.com/users/1162077/screenshots/4649464/media/c6590c70a5966a3baf311f081cdda5ff.gif)
 
 ## 😮Giới thiệu sản phẩm🐠:
 
