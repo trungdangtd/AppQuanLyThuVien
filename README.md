@@ -39,7 +39,14 @@
 ## Công cụ hỗ trợ
 
 ## Các tính năng sẽ được cập nhật trong tương lai
+Nhìn chung chúng em cũng đã đi được một nửa chặng đường của đồ án và hoàn thành các Story ở mạt dạt và tốt cũng như vẫn còn đó các chức năng vẫn và đang trong quá trình thực hiện, cãi tiến trong tương lai gần
 
+sau đây là các chức năng sẽ được cập nhật trong tương lai gần:
+- Quản lý sách nhân bản
+- Quản lý chung và thống kê
+- Quản lý thẻ thư viện
+- Tính năng tìm kiếm sách
+- Sắp xếp sách 
 ## Hướng dẫn tải về
 ```bash
 git clone https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3.git
