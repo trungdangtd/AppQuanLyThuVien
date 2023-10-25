@@ -126,10 +126,10 @@ public class HomePageFragment extends Fragment implements TextWatcher {
         watchMoreBtn.setOnClickListener(v -> WatchMoreBtn());
         genreListBtn.setOnClickListener(v -> LoadGenreList());
         if(MainActivity.instance.isLogin) {
-            if (BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên")) {
+            if (BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên")|| BookstoreProjectDatabase.accountInfo.getRole().equals("Tiếp tân")) {
                 addBookBtn.setVisibility(View.INVISIBLE);
                 addBookBtn.setEnabled(false);
-            } else if (BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý")) {
+            } else if (BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư")) {
                 addBookBtn.setVisibility(View.VISIBLE);
                 addBookBtn.setEnabled(true);
                 addBookBtn.setOnClickListener(v -> AddBookBtn(view));

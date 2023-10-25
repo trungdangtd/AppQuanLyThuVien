@@ -312,7 +312,7 @@ public class BookstoreProjectDatabase {
                     }
                 }
             }
-            else if(accountInfo.getRole().equals("Quản lý"))
+            else if(accountInfo.getRole().equals("Quản lý")|| accountInfo.getRole().equals("Thủ kho") || accountInfo.getRole().equals("Thủ thư"))
             {
                 MainActivity.instance.currentFragment = new ManageListFragment();
                 MainActivity.instance.ReplaceFragment(-1);
@@ -328,7 +328,7 @@ public class BookstoreProjectDatabase {
         accNames = new ArrayList<>();
         accounts = new ArrayList<>();
         Task<QuerySnapshot> accountNames = null;
-        if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
+        if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
             accountNames = accountCollectionRef.whereEqualTo("Role", roleName).get();
 
         while(true)
@@ -336,7 +336,7 @@ public class BookstoreProjectDatabase {
             if(accountNames.isSuccessful())
             {
                 for (DocumentSnapshot accountName : accountNames.getResult()) {
-                    if (!accountName.getString("Role").equals("Quản lý")) {
+                    if (!accountName.getString("Role").equals("Quản lý")||!accountName.getString("Role").equals("Thủ thư")) {
                         accNames.add(accountName.getString("Account"));
                         accounts.add(new Account(accountName.getString("Account"), accountName.getString("Password"), accountName.getString("Role")));
                         System.out.println(accountName.getString("Account"));

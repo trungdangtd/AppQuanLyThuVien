@@ -61,7 +61,7 @@ public class ManageListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_manage_list, container, false);
     }
 
-    LinearLayout quitBtn, registerBtn, accountBtn, copybookBtn, libraryBtn, loanBtn, reportBtn;
+    LinearLayout quitBtn, registerBtn, accountBtn;
     TextView loadingScreen;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -89,10 +89,26 @@ public class ManageListFragment extends Fragment {
     // Gán chức năng cho các pallete
     void SetPalletes(View view)
     {
-
+        if (BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
+        {
             registerBtn.setOnClickListener(v -> RegisterBtn());
             accountBtn.setOnClickListener(v -> AccountBtn());
 
+        }
+        else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ kho"))
+        {
+            registerBtn.setVisibility(View.GONE);
+            registerBtn.setEnabled(false);
+
+            accountBtn.setVisibility(View.GONE);
+            accountBtn.setEnabled(false);
+        }
+        else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
+        {
+            accountBtn.setOnClickListener(v -> AccountBtn());
+            registerBtn.setOnClickListener(v -> RegisterBtn());
+
+        }
         quitBtn.setOnClickListener(v -> QuitBtn());
     }
 
