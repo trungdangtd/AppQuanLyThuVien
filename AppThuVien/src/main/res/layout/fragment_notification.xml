@@ -15,12 +15,13 @@
         <TextView
             android:id="@+id/nofihead"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="41dp"
             android:background="#FF0000"
+            android:textStyle="bold"
             android:gravity="center"
             android:text="Thông Báo"
             android:textColor="@color/white"
-            android:textSize="19dp"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
