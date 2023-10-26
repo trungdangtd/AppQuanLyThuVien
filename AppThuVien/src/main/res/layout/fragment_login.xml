@@ -21,11 +21,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:fontFamily="@font/archivo_black"
+        android:fontFamily="sans-serif-black"
         android:text="Thông tin đăng nhập"
         android:textAlignment="center"
         android:textColor="@color/purple_700"
-        android:textSize="36sp"
+        android:textSize="35dp"
         tools:ignore="HardcodedText,RtlHardcoded" />
 
     <LinearLayout
