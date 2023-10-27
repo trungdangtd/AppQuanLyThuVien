@@ -37,7 +37,7 @@
 | Hoàng Anh        | 21DH113434   | Scrum Master| nhoxlovew |
 | Đặng Trần Hoàng Trung  | 21DH113401   | Team Leader| trungdangtd |
 | Nguyễn Trung Hiếu      | 21DH113245   | Product Owner| trunghieu2705 |
-| Võ Trương Cao Nhân     | 21DH113935   | Dev| B4ch0-Production |
+| Võ Trương Cao Nhân     | 21DH113935   | Dev| justB4ch0 |
 | Lê Nguyễn Hoàng Long   | 21DH113434   | Dev| LeNguyenHoangLong |
 ## 🔧Công cụ hỗ trợ🔨
 
