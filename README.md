@@ -68,6 +68,11 @@ Các chức năng chúng em nhận định đã hoàn thành ở mức tốt nh�
 - Load dữ liệu khá chậm vì xài Firebase lag vl
 
 Sau thời gian làm đồ án chúng em đã rút ra kinh nghiệm và sẽ làm chỉnh chu hơn những lần sau
+## 🏡 Giao diện của App Quản Lý Thư Viện 📗
+Giao diện trang chủ 📖 :
+
+![Screenshot 2023-11-03 141748](https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3/assets/125419112/230f86c9-b939-4083-ac30-d54a32bdefa8)
+
 ## 💻 Hướng dẫn tải về 💻:
 ```bash
 git clone https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3.git
