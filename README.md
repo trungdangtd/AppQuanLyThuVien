@@ -44,13 +44,29 @@
 <p align="left"> <a href="https://developer.android.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original-wordmark.svg" alt="android" width="40" height="40"/> </a> <a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="firebase" width="40" height="40"/> </a> <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> </p>
 
 ## ⚡Các tính năng sẽ được cập nhật trong tương lai ⚡
-Nhìn chung chúng em đã hoàn thành được đồ án hiện tại của mình một cách tổng thể các chức năng cần thiết và các chức năng đã lên kế hoạch như Quản lý sách, thẻ thư viện, hay người dùng... đã hoàn thành ở mức tốt nhưng song với đó vẫn còn một số tính năng mà app tụi em vẫn chưa làm được như: 
+Nhìn chung chúng em đã hoàn thành được đồ án hiện tại của mình một cách tổng thể các chức năng cần thiết và các chức năng đã lên kế hoạch...
+👇sau đây là các chức năng chính đã làm được 👇:
+- Quản lý sách
+- Quản lý sách nhân bản
+- Quản lý thẻ thư viện
+- Quản lý người dùng
+- Quản lý cho Mượn
+- Quản lý chung
+- Tính năng đăng nhập/ đăng ký
+- Sreach và sắp xếp sách
+- Phân loại sách
+- Gợi ý sách cho người dùng
+
+Các chức năng chúng em nhận định đã hoàn thành ở mức tốt nhưng song với đó vẫn còn một số tính năng khi mà nhìn lại app tụi em vẫn thấy nhìn nhận được được một số vấn đề vẫn chưa làm chưa làm được như: 
 
 👇sau đây là các chức năng chưa làm được 👇:
 - tính năng kiểm soát thời gian mượn sách
 - thẻ thư viện không có ngày hết hạn
+- Phân loại sách vẫn còn là dữ liệu cứng chưa cho thêm loại sách
 - giao diện vẫn còn cứng ngắt chưa cởi mở
 - Load dữ liệu khá chậm vì xài Firebase lag vl
+
+Sau thời gian làm đồ án chúng em đã rút ra kinh nghiệm và sẽ làm chỉnh chu hơn những lần sau
 ## 💻 Hướng dẫn tải về 💻:
 ```bash
 git clone https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3.git
