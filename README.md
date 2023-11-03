@@ -71,7 +71,7 @@ Sau thời gian làm đồ án chúng em đã rút ra kinh nghiệm và sẽ là
 ## 🏡 Giao diện của App Quản Lý Thư Viện 📗
 Giao diện trang chủ 📖 :
 
-|![Screenshot 2023-11-03 141748](https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3/assets/125419112/230f86c9-b939-4083-ac30-d54a32bdefa8)|![Screenshot 2-11-03 143421](https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3/assets/125419112/917808c2-ae1d-452e-8ec1-8cb1bc6247d2)|![3333](https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3/assets/125419112/0a782540-6a8c-44e2-b776-8fea1f999e97)|
+![Screenshot 2-11-03 143421](https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3/assets/125419112/917808c2-ae1d-452e-8ec1-8cb1bc6247d2)|![3333](https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3/assets/125419112/0a782540-6a8c-44e2-b776-8fea1f999e97)|
 
 
 
