@@ -1,4 +1,4 @@
-### 📘ỨNG DỤNG QUẢN LÝ THƯ VIỆN📖
+### 📘ỨNG DỤNG QUẢN LÝ THƯ VIỆN - Nhóm 4 Thứ 6 Ca 3📖
 <h1 align="center">
     <img src="https://readme-typing-svg.herokuapp.com/?font=Righteous&size=35&center=true&vCenter=true&width=500&height=70&duration=4000&lines=Xin+Chào+Mọi+Người!+👋;📘+Đến+Với+App+Quản+Lý+Thư+Viện!+📖"/>
 </h1>
@@ -45,6 +45,7 @@
 
 ## ⚡Các tính năng sẽ được cập nhật trong tương lai ⚡
 Nhìn chung chúng em đã hoàn thành được đồ án hiện tại của mình một cách tổng thể các chức năng cần thiết và các chức năng đã lên kế hoạch...
+
 👇sau đây là các chức năng chính đã làm được 👇:
 - Quản lý sách
 - Quản lý sách nhân bản
