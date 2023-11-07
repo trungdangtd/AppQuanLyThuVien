@@ -59,6 +59,7 @@ Nhìn chung chúng em đã hoàn thành được đồ án hiện tại của m�
 - Tính năng đăng nhập/ đăng ký
 - Sreach và sắp xếp sách
 - Phân loại sách
+- Mượn sách
 - Gợi ý sách cho người dùng
 
 Các chức năng chúng em nhận định đã hoàn thành ở mức tốt nhưng song với đó vẫn còn một số tính năng khi mà nhìn lại app tụi em vẫn thấy nhìn nhận được được một số vấn đề vẫn chưa làm chưa làm được như: 
