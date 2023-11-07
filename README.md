@@ -66,6 +66,7 @@ Các chức năng chúng em nhận định đã hoàn thành ở mức tốt nh�
 - Phân loại sách vẫn còn là dữ liệu cứng chưa cho thêm loại sách
 - giao diện vẫn còn cứng ngắt chưa cởi mở
 - Load dữ liệu khá chậm vì xài Firebase lag vl
+- thông báo dữ liệu cứng
 
 Sau thời gian làm đồ án chúng em đã rút ra kinh nghiệm và sẽ làm chỉnh chu hơn những lần sau
 ## 🏡 Giao diện của App Quản Lý Thư Viện 📗
