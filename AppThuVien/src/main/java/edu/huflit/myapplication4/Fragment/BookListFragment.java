@@ -109,8 +109,9 @@ public class BookListFragment extends Fragment implements TextWatcher {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_book_list, container, false);
     }
+    AutoCompleteTextView searchBar_ACTV;
     RecyclerView bookListRV;
-    ImageView backBtn;
+    ImageView backBtn, sortBtn;
     TextView nofiMessage, sortTitle;
 
     @Override
@@ -120,25 +121,30 @@ public class BookListFragment extends Fragment implements TextWatcher {
         SetPalletes(view);
         LoadBookList();
 
-//        nofiMessage.setEnabled(false);
-//        if(books.size() == 0) {
-//            nofiMessage.setVisibility(View.VISIBLE);
-//        }
-//        else
-//            nofiMessage.setVisibility(View.INVISIBLE);
+        nofiMessage.setEnabled(false);
+        if(books.size() == 0) {
+            nofiMessage.setVisibility(View.VISIBLE);
+        }
+        else
+            nofiMessage.setVisibility(View.INVISIBLE);
     }
 
     void GetIDPalletes(View view)
     {
+        searchBar_ACTV = (AutoCompleteTextView)view.findViewById(R.id.myautocomplete);
         bookListRV = view.findViewById(R.id.BookList);
         backBtn = view.findViewById(R.id.backBtn);
         nofiMessage = view.findViewById(R.id.message);
+        sortBtn = view.findViewById(R.id.sortBtn);
+        sortTitle = view.findViewById(R.id.sortTitle);
     }
 
     void SetPalletes(View view)
     {
+        sortTitle.setText("Chưa chọn sắp xếp");
+        sortBtn.setOnClickListener(v -> SortBtn(view));
         backBtn.setOnClickListener(v -> BackToPage());
-
+        SearchBar();
     }
 
     void LoadBookList()
@@ -152,8 +158,112 @@ public class BookListFragment extends Fragment implements TextWatcher {
         getFragmentManager().popBackStack();
     }
 
-    //sreach bar để ở đây
+    void SearchBar()
+    {
+        searchBar_ACTV.addTextChangedListener(this);
+        searchBar_ACTV.setAdapter(new ArrayAdapter<String>(MainActivity.instance, android.R.layout.simple_dropdown_item_1line, BookstoreProjectDatabase.bookName));
+        searchBar_ACTV.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    MainActivity.instance.currentFragment = new BookListFragment(searchBar_ACTV.getText().toString(), "");
+                    MainActivity.instance.ReplaceFragment(-1);
+                    searchBar_ACTV.setText("");
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 
+    void SortBtn(View view)
+    {
+        // Create a new PopupWindow instance
+        PopupWindow popup = new PopupWindow(view.getContext().getApplicationContext());
+
+        // Inflate your custom layout
+        LayoutInflater inflater = (LayoutInflater) view.getContext().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.sortoption, null);
+
+        RadioButton sortNameAscBtn = layout.findViewById(R.id.TenAsc);
+        RadioButton sortNameDescBtn = layout.findViewById(R.id.TenDesc);
+        RadioButton sortYearPublishedAscBtn = layout.findViewById(R.id.NamXBAsc);
+        RadioButton sortYearPublishedDescBtn = layout.findViewById(R.id.NamXBDesc);
+        Button closeBtn = layout.findViewById(R.id.closeBtn);
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
+
+        sortNameAscBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                BookstoreProjectDatabase.SortBookWithName(true, !TextUtils.isEmpty(genreName) ? genreName : "");
+                books = BookstoreProjectDatabase.GetBooks();
+                sortNameDescBtn.setChecked(false);
+                sortYearPublishedAscBtn.setChecked(false);
+                sortYearPublishedDescBtn.setChecked(false);
+                bookListRV.setAdapter(new BookAdapter(getActivity().getApplicationContext(), books));
+                sortTitle.setText("Tên tăng dần");
+                popup.dismiss();
+            }
+        });
+
+        sortNameDescBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                BookstoreProjectDatabase.SortBookWithName(false, !TextUtils.isEmpty(genreName) ? genreName : "");
+                books = BookstoreProjectDatabase.GetBooks();
+                sortNameAscBtn.setChecked(false);
+                sortYearPublishedAscBtn.setChecked(false);
+                sortYearPublishedDescBtn.setChecked(false);
+                bookListRV.setAdapter(new BookAdapter(getActivity().getApplicationContext(), books));
+                sortTitle.setText("Tên giảm dần");
+                popup.dismiss();
+            }
+        });
+
+        sortYearPublishedAscBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                BookstoreProjectDatabase.SortBookWithYearPublished(true, !TextUtils.isEmpty(genreName) ? genreName : "");
+                books = BookstoreProjectDatabase.GetBooks();
+                sortNameDescBtn.setChecked(false);
+                sortNameAscBtn.setChecked(false);
+                sortYearPublishedDescBtn.setChecked(false);
+                bookListRV.setAdapter(new BookAdapter(getActivity().getApplicationContext(), books));
+                sortTitle.setText("Năm xuất bản tăng dần");
+                popup.dismiss();
+            }
+        });
+
+        sortYearPublishedDescBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                BookstoreProjectDatabase.SortBookWithYearPublished(false, !TextUtils.isEmpty(genreName) ? genreName : "");
+                books = BookstoreProjectDatabase.GetBooks();
+                sortNameDescBtn.setChecked(false);
+                sortYearPublishedAscBtn.setChecked(false);
+                sortNameAscBtn.setChecked(false);
+                bookListRV.setAdapter(new BookAdapter(getActivity().getApplicationContext(), books));
+                sortTitle.setText("Năm xuất bản giảm dần");
+                popup.dismiss();
+            }
+        });
+
+        // Set the custom layout as the content view for the popup window
+        popup.setContentView(layout);
+
+        // Set the width and height of the popup window
+        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        // Show the popup window
+        popup.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -169,8 +279,4 @@ public class BookListFragment extends Fragment implements TextWatcher {
     public void afterTextChanged(Editable s) {
 
     }
-
-    //sreach
-
-    //sap xep sau nay
 }

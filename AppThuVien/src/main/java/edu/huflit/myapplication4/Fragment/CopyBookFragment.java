@@ -8,26 +8,22 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import java.util.ArrayList;
-
-import edu.huflit.myapplication4.Adapter.NoficationAdapter;
+import edu.huflit.myapplication4.Adapter.BookCopy2Adapter;
 import edu.huflit.myapplication4.BookstoreProjectDatabase;
-import edu.huflit.myapplication4.Entity.Nofication;
 import edu.huflit.myapplication4.MainActivity;
 import edu.huflit.myapplication4.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NotificationFragment#newInstance} factory method to
+ * Use the {@link CopyBookFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotificationFragment extends Fragment {
+public class CopyBookFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,7 +34,7 @@ public class NotificationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public NotificationFragment() {
+    public CopyBookFragment() {
         // Required empty public constructor
     }
 
@@ -48,11 +44,11 @@ public class NotificationFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationFragment.
+     * @return A new instance of fragment CopyBookFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NotificationFragment newInstance(String param1, String param2) {
-        NotificationFragment fragment = new NotificationFragment();
+    public static CopyBookFragment newInstance(String param1, String param2) {
+        CopyBookFragment fragment = new CopyBookFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -73,25 +69,42 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+        return inflater.inflate(R.layout.fragment_copy_book, container, false);
     }
+
+    RecyclerView copybookList;
+    ImageView backcopyBtn;
+    int index;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainActivity.instance.menuBNV.setVisibility(View.VISIBLE);
-        MainActivity.instance.menuBNV.setEnabled(true);
+        MainActivity.instance.menuBNV.setVisibility(View.GONE);
+        MainActivity.instance.menuBNV.setEnabled(false);
+        index = 0;
+        BookstoreProjectDatabase.LoadBooks();
+        GetIDPalletes(view);
+        SetPalletes(view);
+    }
+    void GetIDPalletes(View view)
+    {
+        copybookList = view.findViewById(R.id.copybooklist);
+        backcopyBtn = view.findViewById(R.id.backcopyBtn);
+    }
 
-        RecyclerView nofiList = view.findViewById(R.id.Nofilist);
-        TextView message = view.findViewById(R.id.message);
+    // Gán chức năng cho các pallete
+    void SetPalletes(View view)
+    {
+        backcopyBtn.setOnClickListener(v -> BackBtn());
+        LoadBookCopyList();
+    }
 
-        ArrayList<Nofication> nofications = new ArrayList<>();
-        if (MainActivity.instance.isLogin && !TextUtils.isEmpty(BookstoreProjectDatabase.libraryCard.getId())) {
-            nofications = BookstoreProjectDatabase.LoadNofication(BookstoreProjectDatabase.libraryCard.getId());
+    void BackBtn()
+    {
+        getFragmentManager().popBackStack();
+    }
 
-            nofiList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.VERTICAL, false));
-            nofiList.setAdapter(new NoficationAdapter(getActivity().getApplicationContext(), nofications));
-        }
-        message.setVisibility(nofications.size() > 0 ? View.GONE : View.VISIBLE);
-        message.setEnabled(!(nofications.size() > 0));
+    void LoadBookCopyList(){
+        copybookList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.HORIZONTAL,false));
+        copybookList.setAdapter(new BookCopy2Adapter(getActivity().getApplicationContext(),BookstoreProjectDatabase.books));
     }
 }

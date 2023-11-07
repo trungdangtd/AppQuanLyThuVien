@@ -46,6 +46,7 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
     private String mParam1;
     private String mParam2;
     Book book;
+
     public BookDetailFragment() {
         // Required empty public constructor
     }
@@ -141,6 +142,7 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
         homeBtn.setOnClickListener(v -> BackToHome());
         cartBtn.setOnClickListener(v -> BackToCart());
         watchMoreBtn.setOnClickListener(v -> WatchMoreBtn());
+        SearchBar();
 
         if(!book.getUrlImage().equals("Unknown"))
         {
@@ -230,19 +232,33 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
         MainActivity.instance.currentFragment = new BookListFragment("", bookGenre.getText().toString());
         MainActivity.instance.ReplaceFragment(-1);
     }
+    void SearchBar()
+    {
+        searchBar_ACTV.addTextChangedListener(this);
+        searchBar_ACTV.setAdapter(new ArrayAdapter<>(MainActivity.instance, android.R.layout.simple_dropdown_item_1line, BookstoreProjectDatabase.bookName));
+        searchBar_ACTV.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                MainActivity.instance.currentFragment = new BookListFragment(searchBar_ACTV.getText().toString(), "");
+                MainActivity.instance.ReplaceFragment(-1);
+                searchBar_ACTV.setText("");
+                return true;
+            }
+            return false;
+        });
+    }
 
     @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
 
     @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
     }
 
     @Override
-    public void afterTextChanged(Editable editable) {
+    public void afterTextChanged(Editable s) {
 
     }
 }

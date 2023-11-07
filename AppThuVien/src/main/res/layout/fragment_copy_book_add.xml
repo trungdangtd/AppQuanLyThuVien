@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.AddBookFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:id="@+id/backaddcopybookBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/baseline_arrow_back_24"
+            tools:ignore="ContentDescription,RtlHardcoded" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chỉnh sửa bản sao sách"
+            android:textAlignment="center"
+            android:textColor="#FFAB40"
+            android:textSize="36dp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,SpUsage,TextContrastCheck"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="Mã bản sao"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck" />
+
+            <EditText
+                android:id="@+id/addcopyid"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/roundedinput"
+                android:hint="Nhập mã bản sao..."
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                android:layout_gravity="center"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,SpUsage,TextFields,TextSizeCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"
+                android:importantForAutofill="no"></EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="Mã sách"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck" />
+
+            <EditText
+                android:id="@+id/addcopybookid"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/roundedinput"
+                android:hint="Nhập mã sách..."
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                android:layout_gravity="center"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,SpUsage,TextFields,TextSizeCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"
+                android:importantForAutofill="no"></EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Trạng thái"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck" />
+
+            <Spinner
+                android:id="@+id/addcopybooksatus"
+                android:layout_width="170dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:paddingLeft="10dp"
+                android:spinnerMode="dropdown"
+                tools:ignore="RtlHardcoded,RtlSymmetry,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Ghi chú"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck" />
+
+            <EditText
+                android:id="@+id/addcopybooknote"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/roundedinput"
+                android:hint="Nhập ghi chú..."
+                android:paddingLeft="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                tools:ignore="Autofill,HardcodedText,RtlHardcoded,RtlSymmetry,SpUsage,TextFields,TextSizeCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"></EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+            <Button
+                android:id="@+id/btnaddcopybook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF7700"
+                android:text="Sửa"
+                android:textColor="#FFFFFF"
+                tools:ignore="ButtonStyle,HardcodedText,TextContrastCheck" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

@@ -69,7 +69,129 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/manageLibraryCardBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
 
+            <ImageView
+                android:id="@+id/icManageLibraryCard"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_4"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Quản lý thẻ thư viện"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manageLoanBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:id="@+id/icManageLoan"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_3"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Phiếu mượn"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manageCopyBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:id="@+id/icManageBookCopy"
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_7"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Quản lý sách bản sao"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml,TextSizeCheck" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manageReportBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:background="#D32F2F">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_7"
+                tools:ignore="ContentDescription,NestedWeights" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Thống kê chung"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UseCompatTextViewDrawableXml" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/RegisterBtn"

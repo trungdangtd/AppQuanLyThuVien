@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import edu.huflit.myapplication4.Adapter.CartApdater;
+import edu.huflit.myapplication4.BookstoreProjectDatabase;
+import edu.huflit.myapplication4.Entity.Copy;
+import edu.huflit.myapplication4.Entity.Loan;
 import edu.huflit.myapplication4.MainActivity;
 import edu.huflit.myapplication4.R;
 
@@ -82,10 +86,16 @@ public class CartFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        MainActivity.instance.menuBNV.setVisibility(View.VISIBLE);
+        MainActivity.instance.menuBNV.setEnabled(true);
         GetIdPalletes(view);
         SetPalletes();
         nofiMessage.setEnabled(false);
-        nofiMessage.setVisibility(View.VISIBLE);
+        if(MainActivity.instance.bookCart.size() == 0) {
+            nofiMessage.setVisibility(View.VISIBLE);
+        }
+        else
+            nofiMessage.setVisibility(View.INVISIBLE);
     }
 
     void GetIdPalletes(View view)
@@ -97,11 +107,52 @@ public class CartFragment extends Fragment {
 
     void SetPalletes()
     {
+        if(MainActivity.instance.isLogin && BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
             borrowBtn.setOnClickListener(v -> BorrowBtn());
+
+        bookCartList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.VERTICAL, false));
+        bookCartList.setAdapter(new CartApdater(getActivity().getApplicationContext(), MainActivity.instance.bookCart));
     }
 
     void BorrowBtn() {
+        if(MainActivity.instance.bookCart.size() == 0) {
+            Toast.makeText(getActivity().getApplicationContext(), "Hãy chọn sách" + MainActivity.instance.amount, Toast.LENGTH_LONG).show();
+            return;
+        }
 
+        Calendar currentCal = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+        String currentdate = dateFormat.format(currentCal.getTime());
+        currentCal.add(Calendar.DATE, 15);
+        String toDate = dateFormat.format(currentCal.getTime());
+
+
+        for (int i = 0; i < MainActivity.instance.bookCart.size(); i++) {
+            ArrayList<Copy> copyArrayList = BookstoreProjectDatabase.LoadCopiesWithBookId(MainActivity.instance.bookCart.get(i).getId(), "Còn");
+
+            for (int j = 0; i < copyArrayList.size(); i++) {
+                if (copyArrayList.get(j).getStatus().equals("Còn")) {
+                    BookstoreProjectDatabase.AddLoan(new Loan(MainActivity.instance.bookCart.get(i).getId(),
+                            BookstoreProjectDatabase.libraryCard.getId(),
+                            copyArrayList.get(j).getId(),
+                            currentdate,
+                            toDate));
+                    copyArrayList.get(j).setStatus("Cho mượn");
+                    BookstoreProjectDatabase.UpdateBookCopy(copyArrayList.get(j));
+                    MainActivity.instance.bookCart.remove( MainActivity.instance.bookCart.get(i));
+                    break;
+                }
+            }
+        }
+
+
+
+        BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, true, BookstoreProjectDatabase.libraryCard.getUseStatus());
+
+        bookCartList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.VERTICAL, false));
+        bookCartList.setAdapter(new CartApdater(getActivity().getApplicationContext(), MainActivity.instance.bookCart));
+        bookCartList.getAdapter().notifyDataSetChanged();
         nofiMessage.setVisibility(View.VISIBLE);
     }
 }

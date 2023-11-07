@@ -61,7 +61,7 @@ public class ManageListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_manage_list, container, false);
     }
 
-    LinearLayout quitBtn, registerBtn, accountBtn;
+    LinearLayout quitBtn, registerBtn, accountBtn, copybookBtn, libraryBtn, loanBtn, reportBtn;
     TextView loadingScreen;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -74,6 +74,10 @@ public class ManageListFragment extends Fragment {
         loadingScreen.setEnabled(false);
         quitBtn.setEnabled(true);
         registerBtn.setEnabled(true);
+        copybookBtn.setEnabled(true);
+        libraryBtn.setEnabled(true);
+        loanBtn.setEnabled(true);
+        reportBtn.setEnabled(true);
     }
 
 
@@ -83,31 +87,56 @@ public class ManageListFragment extends Fragment {
         quitBtn = view.findViewById(R.id.logoutBtn);
         registerBtn = view.findViewById(R.id.RegisterBtn);
         accountBtn = view.findViewById(R.id.manageAccountBtn);
+        copybookBtn = view.findViewById(R.id.manageCopyBtn);
+        libraryBtn = view.findViewById(R.id.manageLibraryCardBtn);
+        loanBtn = view.findViewById(R.id.manageLoanBtn);
+        reportBtn = view.findViewById(R.id.manageReportBtn);
         loadingScreen = view.findViewById(R.id.loadingScreens);
     }
 
     // Gán chức năng cho các pallete
     void SetPalletes(View view)
     {
-        if (BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
+        if (BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
         {
             registerBtn.setOnClickListener(v -> RegisterBtn());
             accountBtn.setOnClickListener(v -> AccountBtn());
-
+            copybookBtn.setOnClickListener(v -> CopyBookBtn());
+            libraryBtn.setOnClickListener(v -> LibraryBtn());
+            loanBtn.setOnClickListener(v -> LoanBtn());
+            reportBtn.setOnClickListener(v -> ReportBtn());
         }
         else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ kho"))
         {
+            copybookBtn.setOnClickListener(v -> CopyBookBtn());
+
+            loanBtn.setVisibility(View.GONE);
+            loanBtn.setEnabled(false);
+
             registerBtn.setVisibility(View.GONE);
             registerBtn.setEnabled(false);
 
             accountBtn.setVisibility(View.GONE);
             accountBtn.setEnabled(false);
+
+            libraryBtn.setVisibility(View.GONE);
+            libraryBtn.setEnabled(false);
+
+            reportBtn.setVisibility(View.GONE);
+            reportBtn.setEnabled(false);
         }
         else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
         {
             accountBtn.setOnClickListener(v -> AccountBtn());
+            libraryBtn.setOnClickListener(v -> LibraryBtn());
             registerBtn.setOnClickListener(v -> RegisterBtn());
+            loanBtn.setOnClickListener(v -> LoanBtn());
 
+            copybookBtn.setVisibility(View.GONE);
+            copybookBtn.setEnabled(false);
+
+            reportBtn.setVisibility(View.GONE);
+            reportBtn.setEnabled(false);
         }
         quitBtn.setOnClickListener(v -> QuitBtn());
     }
@@ -117,9 +146,17 @@ public class ManageListFragment extends Fragment {
         loadingScreen.setVisibility(View.VISIBLE);
         quitBtn.setEnabled(false);
         registerBtn.setEnabled(false);
-
+        copybookBtn.setEnabled(false);
+        libraryBtn.setEnabled(false);
+        loanBtn.setEnabled(false);
+        reportBtn.setEnabled(false);
     }
 
+    void CopyBookBtn(){
+        Loading();
+        MainActivity.instance.currentFragment = new CopyBookFragment();
+        MainActivity.instance.ReplaceFragment(-1);
+    }
 
     void AccountBtn()
     {
@@ -145,5 +182,24 @@ public class ManageListFragment extends Fragment {
 
     }
 
+    void LibraryBtn()
+    {
+        Loading();
+        MainActivity.instance.currentFragment = new LibraryCardFragment();
+        MainActivity.instance.ReplaceFragment(-1);
+    }
 
+    void LoanBtn()
+    {
+        Loading();
+        MainActivity.instance.currentFragment = new LoanFragment();
+        MainActivity.instance.ReplaceFragment(-1);
+    }
+
+    void ReportBtn()
+    {
+        Loading();
+        MainActivity.instance.currentFragment = new ReportFragment();
+        MainActivity.instance.ReplaceFragment(-1);
+    }
 }

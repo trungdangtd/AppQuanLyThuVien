@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.UpdateLibraryCardFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/baseline_arrow_back_24"
+            tools:ignore="ContentDescription,RtlHardcoded" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chỉnh sửa thẻ thư viện"
+            android:textAlignment="center"
+            android:textColor="#FFAB40"
+            android:textSize="36dp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,SpUsage,TextContrastCheck"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="Ngày hết hạn"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck" />
+
+            <Spinner
+                android:id="@+id/ExpirationDate"
+                android:layout_width="170dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:paddingLeft="10dp"
+                android:spinnerMode="dropdown"
+                tools:ignore="RtlHardcoded,RtlSymmetry,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="Tình trạng sử dụng"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck" />
+
+            <Spinner
+                android:id="@+id/UseStatus"
+                android:layout_width="170dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:paddingLeft="10dp"
+                android:spinnerMode="dropdown"
+                tools:ignore="RtlHardcoded,RtlSymmetry,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+            <Button
+                android:id="@+id/updatebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF7700"
+                android:text="Sửa"
+                android:textColor="#00FF00"
+                tools:ignore="ButtonStyle,HardcodedText,TextContrastCheck" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

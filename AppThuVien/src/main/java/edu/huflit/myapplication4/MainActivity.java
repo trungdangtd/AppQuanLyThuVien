@@ -21,6 +21,7 @@ import edu.huflit.myapplication4.Fragment.HomePageFragment;
 import edu.huflit.myapplication4.Fragment.LoginFragment;
 import edu.huflit.myapplication4.Fragment.ManageListFragment;
 import edu.huflit.myapplication4.Fragment.NotificationFragment;
+import edu.huflit.myapplication4.Fragment.SuggestFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -90,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     if( BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
                         currentFragment = new AccountFragment();
-                    else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
+                    else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ kho")  || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
                         currentFragment = new ManageListFragment();
                 }
                 break;
             case R.id.suggest:
-//                currentFragment = new SuggestFragment();
-//                break;
+                currentFragment = new SuggestFragment();
+                break;
             case R.id.nofi:
                 currentFragment = new NotificationFragment();
                 break;

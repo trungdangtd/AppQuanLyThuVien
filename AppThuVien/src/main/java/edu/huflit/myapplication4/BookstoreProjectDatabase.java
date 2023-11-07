@@ -24,6 +24,7 @@ import edu.huflit.myapplication4.Entity.Copy;
 import edu.huflit.myapplication4.Entity.Genre;
 import edu.huflit.myapplication4.Entity.LibraryCard;
 import edu.huflit.myapplication4.Entity.Loan;
+import edu.huflit.myapplication4.Entity.Nofication;
 import edu.huflit.myapplication4.Fragment.AccountFragment;
 import edu.huflit.myapplication4.Fragment.ManageListFragment;
 
@@ -34,6 +35,7 @@ public class BookstoreProjectDatabase {
     private static final String LIBRARYCARD = "LibraryCard"; // Tên bảng
     private static final String GENRE = "Genre"; // Tên bảng
     private static final String ACCOUNT = "Account"; // Tên bảng
+    private static final String NOFICATION = "Nofication"; // Tên bảng
     public static ArrayList<Book> books; // sách
     public static ArrayList<Genre> genres; // sách
     public static ArrayList<String> bookName; // từ khóa gợi ý khi tìm kiếm
@@ -43,10 +45,11 @@ public class BookstoreProjectDatabase {
     public static ArrayList<LibraryCard> libraryCards;
     public static ArrayList<Loan> loans;
     public static Account accountInfo;
+    public static Copy copyinfo;
     public static LibraryCard libraryCard;
     @SuppressLint("StaticFieldLeak")
     static FirebaseFirestore database;
-    static CollectionReference bookCollectionRef, copyCollectionRef, loanCollectionRef, libraryCardCollectionRef, genreCollectionRef, accountCollectionRef; // Các collection trong database Bookstore
+    static CollectionReference bookCollectionRef, copyCollectionRef, loanCollectionRef, libraryCardCollectionRef, genreCollectionRef, accountCollectionRef,noficationCollectionRef; // Các collection trong database Bookstore
 
     // Kết nối với database và bảng
     public static void ConnectToFirestoreDB()
@@ -71,9 +74,87 @@ public class BookstoreProjectDatabase {
 
         accountCollectionRef = database.collection(ACCOUNT);
         System.out.println("Connected to Account table successfully!");
+
+        noficationCollectionRef = database.collection(NOFICATION);
+        System.out.println("Connected to Nofication table successfully!");
     }
 
+    public static ArrayList<Nofication> LoadNofication(String id)
+    {
+        ArrayList<Nofication> nofications = new ArrayList<>();
+        Task<QuerySnapshot> nofis = noficationCollectionRef.whereEqualTo("IdStudent", id).get();
+        while (true)
+        {
+            if(nofis.isSuccessful()) {
+                for (DocumentSnapshot nofi : nofis.getResult())
+                    nofications.add(new Nofication(nofi.getString("Title"), nofi.getString("DateUpdate"), nofi.getString("Content"), nofi.getString("IdStudent")));
+                return nofications;
+            }
+        }
+    }
+
+    public static void AddNofication(Nofication nofication)
+    {
+        HashMap<String, Object> multiData = new HashMap<>();
+        multiData.put("Title", nofication.getTitle());
+        multiData.put("Content", nofication.getContent());
+        multiData.put("DateUpdate", nofication.getDateUpdate());
+        multiData.put("IdStudent", nofication.getIdStudent());
+        noficationCollectionRef.document().set(multiData);
+    }
     public static ArrayList<Book> booksAfterSorted;
+    // Tải sách
+    public static void LoadBooksSortedWithCopies()
+    {
+        ArrayList<Tuple<String, Integer>> booksBeforeSorted = new ArrayList<>();
+        booksAfterSorted = new ArrayList<>();
+        for (Book book : books)
+        {
+            Task<QuerySnapshot> copyIds = copyCollectionRef.document(book.getId()).collection("BookCopy").get();
+            while (true)
+            {
+                if (copyIds.isSuccessful())
+                {
+                    int i = 0;
+                    for (DocumentSnapshot id : copyIds.getResult())
+                    {
+                        if (id.getString("Status").equals("Cho mượn"))
+                        {
+                            i++;
+                        }
+                    }
+                    booksBeforeSorted.add(new Tuple<>(book.getId(), i));
+                    break;
+                }
+            }
+        }
+
+
+        for(int i = 0; i < booksBeforeSorted.size() - 1; i++)
+        {
+            for(int j = i + 1; j < booksBeforeSorted.size(); j++)
+            {
+                if (booksBeforeSorted.get(i).y < booksBeforeSorted.get(j).y)
+                {
+                    Tuple<String, Integer> temp = booksBeforeSorted.get(i);
+                    booksBeforeSorted.set(i, booksBeforeSorted.get(j));
+                    booksBeforeSorted.set(j, temp);
+                }
+            }
+        }
+
+        for(Tuple<String, Integer> tuple : booksBeforeSorted)
+        {
+            for (Book book : books)
+            {
+                if(tuple.x.equals(book.getId()))
+                {
+                    booksAfterSorted.add(book);
+                    break;
+                }
+            }
+        }
+    }
 
     // Tải thể loại
     public static void LoadGenre()
@@ -128,6 +209,43 @@ public class BookstoreProjectDatabase {
         }
     }
 
+    // tải các bản sao của sách
+    public static void LoadCopies()
+    {
+        copies = new ArrayList<>();
+
+        for(Book book : books)
+        {
+            Task<QuerySnapshot> copyIds = copyCollectionRef.document(book.getId()).collection("BookCopy").get();
+            while(true) {
+                if (copyIds.isSuccessful()) {
+                    for (DocumentSnapshot copy : copyIds.getResult()) {
+                        copies.add(new Copy(copy.getId(),
+                                book.getId(),
+                                copy.getString("Status"),
+                                copy.getString("Notes")));
+                        System.out.println("Copy id " + copy.getId() + ", book id " + book.getId());
+                    }
+                    break;
+                }
+            }
+        }
+
+
+        System.out.println("Size copies LoadCopies: " + BookstoreProjectDatabase.copies.size());
+    }
+
+    public static ArrayList<Copy> findBooksForLoan() {
+        ArrayList<Copy> booksForLoan = new ArrayList<>();
+
+        for (Copy copy : copies) {
+            if (copy.getStatus() != null && copy.getStatus().equals("cho mượn")) {
+                booksForLoan.add(copy);
+            }
+        }
+
+        return booksForLoan;
+    }
 
     public static ArrayList<Copy> LoadCopiesWithBookId(@NonNull String bookId, @NonNull String status)
     {
@@ -307,17 +425,15 @@ public class BookstoreProjectDatabase {
                         MainActivity.instance.currentFragment = new AccountFragment();
                         MainActivity.instance.ReplaceFragment(-1);
                         MainActivity.instance.isLogin = true;
-                        System.out.println("chuyển trang " + accountInfo.getRole());
                         break;
                     }
                 }
             }
-            else if(accountInfo.getRole().equals("Quản lý")|| accountInfo.getRole().equals("Thủ kho") || accountInfo.getRole().equals("Thủ thư"))
+            else if(accountInfo.getRole().equals("Quản lý") || accountInfo.getRole().equals("Thủ kho") || accountInfo.getRole().equals("Thủ thư"))
             {
                 MainActivity.instance.currentFragment = new ManageListFragment();
                 MainActivity.instance.ReplaceFragment(-1);
                 MainActivity.instance.isLogin = true;
-                System.out.println("chuyển trang " + accountInfo.getRole());
             }
         }
     }
@@ -328,7 +444,9 @@ public class BookstoreProjectDatabase {
         accNames = new ArrayList<>();
         accounts = new ArrayList<>();
         Task<QuerySnapshot> accountNames = null;
-        if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
+        if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý"))
+            accountNames = accountCollectionRef.whereNotEqualTo("Role", roleName).get();
+        else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
             accountNames = accountCollectionRef.whereEqualTo("Role", roleName).get();
 
         while(true)
@@ -336,7 +454,7 @@ public class BookstoreProjectDatabase {
             if(accountNames.isSuccessful())
             {
                 for (DocumentSnapshot accountName : accountNames.getResult()) {
-                    if (!accountName.getString("Role").equals("Quản lý")||!accountName.getString("Role").equals("Thủ thư")) {
+                    if (!accountName.getString("Role").equals("Quản lý")) {
                         accNames.add(accountName.getString("Account"));
                         accounts.add(new Account(accountName.getString("Account"), accountName.getString("Password"), accountName.getString("Role")));
                         System.out.println(accountName.getString("Account"));
@@ -347,6 +465,312 @@ public class BookstoreProjectDatabase {
         }
     }
 
+    // Tải Tài khoản - Manager
+    public static void LoadAccounts()
+    {
+        accNames = new ArrayList<>();
+        accounts = new ArrayList<>();
+        Task<QuerySnapshot> accountNames = accountCollectionRef.get();
+        while(true)
+        {
+            if(accountNames.isSuccessful())
+            {
+                for (DocumentSnapshot accountName : accountNames.getResult())
+                {
+                    accNames.add(accountName.getString("Account"));
+                    accounts.add(new Account(accountName.getString("Account"), accountName.getString("Password"), accountName.getString("Role")));
+                    System.out.println(accountName.getString("Account"));
+                }
+                break;
+            }
+        }
+    }
+
+    public static void LoadAccountWithId(String roleName, String keyWord)
+    {
+        accounts = new ArrayList<>();
+        Task<QuerySnapshot> accountNames = accountCollectionRef.whereEqualTo("Role", roleName).get();
+        while(true)
+        {
+            if(accountNames.isSuccessful())
+            {
+                for (DocumentSnapshot accountName : accountNames.getResult())
+                {
+                    if(accountName.getString("Account").contains(keyWord)) {
+                        accounts.add(new Account(accountName.getString("Account"), accountName.getString("Password"), accountName.getString("Role")));
+                        System.out.println(accountName.getString("Account"));
+                    }
+                }
+                break;
+            }
+        }
+    }
+    // tải thẻ sinh viên - Manager
+    public static void LoadLibraryCards()
+    {
+        libraryCards = new ArrayList<>();
+        Task<QuerySnapshot> libraryCardIds = libraryCardCollectionRef.get();
+        while(true)
+        {
+            if(libraryCardIds.isSuccessful())
+            {
+                for (DocumentSnapshot libraryCardId : libraryCardIds.getResult())
+                {
+                    libraryCards.add(new LibraryCard(libraryCardId.getString("Id"),
+                            libraryCardId.getString("Name"),
+                            libraryCardId.getString("ExpirationDate"),
+                            libraryCardId.getBoolean("Status"),
+                            libraryCardId.getBoolean("Borrow")));
+                }
+                break;
+            }
+        }
+    }
+
+    // tải thẻ sinh viên - Manager
+    public static void LoadLibraryCardsWithId(@NonNull String id)
+    {
+        libraryCards = new ArrayList<>();
+        Task<QuerySnapshot> libraryCardIds = libraryCardCollectionRef.get();
+        while(true)
+        {
+            if(libraryCardIds.isSuccessful())
+            {
+                for (DocumentSnapshot libraryCardId : libraryCardIds.getResult())
+                {
+                    if(libraryCardId.getString("Id").contains(id))
+                        libraryCards.add(new LibraryCard(libraryCardId.getString("Id"),
+                                libraryCardId.getString("Name"),
+                                libraryCardId.getString("ExpirationDate"),
+                                libraryCardId.getBoolean("Status"),
+                                libraryCardId.getBoolean("Borrow")));
+                }
+                break;
+            }
+        }
+    }
+
+    // tải thẻ sinh viên - Manager
+    public static void LoadLibraryCardsWithName(@NonNull String name)
+    {
+        libraryCards = new ArrayList<>();
+        Task<QuerySnapshot> libraryCardIds = libraryCardCollectionRef.get();
+        while(true)
+        {
+            if(libraryCardIds.isSuccessful())
+            {
+                for (DocumentSnapshot libraryCardId : libraryCardIds.getResult())
+                {
+                    if(libraryCardId.getString("Name").contains(name))
+                        libraryCards.add(new LibraryCard(libraryCardId.getString("Id"),
+                                libraryCardId.getString("Name"),
+                                libraryCardId.getString("ExpirationDate"),
+                                libraryCardId.getBoolean("Status"),
+                                libraryCardId.getBoolean("Borrow")));
+                }
+                break;
+            }
+        }
+    }
+
+    public static void SortAcccount(String roleName, boolean isAsc)
+    {
+        accounts = new ArrayList<>();
+
+        Task<QuerySnapshot> accountNames = accountCollectionRef.whereEqualTo("Role", roleName).orderBy("Account", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
+        while(true)
+        {
+            if(accountNames.isSuccessful())
+            {
+                for (DocumentSnapshot accountName : accountNames.getResult())
+                {
+                    accounts.add(new Account(accountName.getString("Account"), accountName.getString("Password"), accountName.getString("Role")));
+                    System.out.println(accountName.getString("Account"));
+                }
+                break;
+            }
+        }
+    }
+
+    public static void SortBookWithName(boolean isAsc, String genre)
+    {
+        System.out.println("Thể loại: " + genre);
+        books = new ArrayList<>();
+        String content = "";
+        Task<QuerySnapshot> bookIds = bookCollectionRef.orderBy("Name", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
+        while(true) {
+            if (bookIds.isSuccessful()) {
+                for (DocumentSnapshot id : bookIds.getResult()) {
+                    content = "";
+                    for(String arCon : (List<String>)id.get("Content"))
+                    {
+                        content += arCon + "\n";
+                    }
+                    books.add(new Book(id.getId(),
+                            id.getString("Name"),
+                            id.getString("Author"),
+                            id.getString("Genre"),
+                            content,
+                            id.getString("YearPublished"),
+                            id.getString("Publisher"),
+                            id.getString("URL")));
+                    System.out.println("Book name " + id.getId() + " : " + id.getString("Name"));
+                }
+                break;
+            }
+        }
+    }
+
+    public static void SortBookWithYearPublished(boolean isAsc, String genre)
+    {
+        System.out.println("Thể loại: " + genre);
+        books = new ArrayList<>();
+        String content = "";
+        Task<QuerySnapshot> bookIds = bookCollectionRef.orderBy("YearPublished", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
+        while(true) {
+            if (bookIds.isSuccessful()) {
+                for (DocumentSnapshot id : bookIds.getResult()) {
+                    content = "";
+                    for(String arCon : (List<String>)id.get("Content"))
+                    {
+                        content += arCon + "\n";
+                    }
+                    books.add(new Book(id.getId(),
+                            id.getString("Name"),
+                            id.getString("Author"),
+                            id.getString("Genre"),
+                            content,
+                            id.getString("YearPublished"),
+                            id.getString("Publisher"),
+                            id.getString("URL")));
+                    System.out.println("Book name " + id.getId() + " : " + id.getString("Name"));
+                }
+                break;
+            }
+        }
+    }
+
+    public static void SortLibraryCard(boolean isAsc)
+    {
+        libraryCards = new ArrayList<>();
+        Task<QuerySnapshot> libraryCardIds = libraryCardCollectionRef.orderBy("Id", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
+        while(true)
+        {
+            if(libraryCardIds.isSuccessful())
+            {
+                for (DocumentSnapshot libraryCardId : libraryCardIds.getResult())
+                {
+                    libraryCards.add(new LibraryCard(libraryCardId.getString("Id"),
+                            libraryCardId.getString("Name"),
+                            libraryCardId.getString("ExpirationDate"),
+                            libraryCardId.getBoolean("Status"),
+                            libraryCardId.getBoolean("Borrow")));
+                }
+                break;
+            }
+        }
+    }
+
+    public static void LoadLoan()
+    {
+        Boolean isDone = false;
+        loans = new ArrayList<>();
+        Task<QuerySnapshot> loanIds = loanCollectionRef.get();
+        while(true)
+        {
+            if(loanIds.isSuccessful())
+            {
+                int i = 0;
+                for(DocumentSnapshot loanId : loanIds.getResult()) {
+                    for (Book book : books) {
+                        Task<QuerySnapshot> bookCopyIds = loanCollectionRef.document(loanId.getId()).collection(book.getId()).get();
+                        while(true)
+                        {
+                            if(bookCopyIds.isSuccessful())
+                            {
+                                for(DocumentSnapshot bookCopyId : bookCopyIds.getResult())
+                                {
+                                    loans.add(new Loan(book.getId(),
+                                            loanId.getId(),
+                                            bookCopyId.getString("BookCopyId"),
+                                            bookCopyId.getString("BorrowDate"),
+                                            bookCopyId.getString("DateDue")));
+                                    System.out.println(book.getId() + ", " + loanId.getId());
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    i++;
+                }
+                if(i == loanIds.getResult().size())
+                    break;
+            }
+        }
+    }
+
+    public static void SortLoan(boolean isAsc)
+    {
+        loans = new ArrayList<>();
+        Task<QuerySnapshot> loanIds = loanCollectionRef.get();
+        while(true)
+        {
+            if(loanIds.isSuccessful())
+            {
+                for(DocumentSnapshot loanId : loanIds.getResult()) {
+                    for (Book book : books) {
+                        Task<QuerySnapshot> bookCopyIds = loanCollectionRef.document(loanId.getId()).collection(book.getId()).orderBy("BorrowDate", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
+                        while(true)
+                        {
+                            if(bookCopyIds.isSuccessful())
+                            {
+                                for(DocumentSnapshot bookCopyId : bookCopyIds.getResult())
+                                {
+                                    loans.add(new Loan(book.getId(),
+                                            loanId.getId(),
+                                            bookCopyId.getString("BookCopyId"),
+                                            bookCopyId.getString("BorrowDate"),
+                                            bookCopyId.getString("DateDue")));
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    public static void SortCopies(boolean isAsc)
+    {
+        copies = new ArrayList<>();
+
+        Task<QuerySnapshot> bookIds = copyCollectionRef.orderBy("Id", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
+        while(true) {
+            if (bookIds.isSuccessful()) {
+                for (DocumentSnapshot id : bookIds.getResult()) {
+                    Task<QuerySnapshot> copyIds = copyCollectionRef.document(id.getId()).collection("BookCopy").get();
+                    while(true) {
+                        if (copyIds.isSuccessful()) {
+                            for (DocumentSnapshot copy : copyIds.getResult()) {
+                                copies.add(new Copy(copy.getId(),
+                                        id.getId(),
+                                        copy.getString("Status"),
+                                        copy.getString("Notes")));
+                            }
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
 
 
     // Thêm sách - Manager
@@ -406,7 +830,36 @@ public class BookstoreProjectDatabase {
         bookCollectionRef.document(id).delete();
     }
 
+    // Thêm bản sao của sách - Manager
+    public static void AddBookCopy(@NonNull Copy copy)
+    {
+        HashMap<String, Object> newBookCopy = new HashMap<>();
 
+        newBookCopy.put("Id",copy.getBookId());
+        copyCollectionRef.document(copy.getBookId()).set(newBookCopy);
+        newBookCopy = new HashMap<>();
+
+        newBookCopy.put("Notes",copy.getNotes());
+        newBookCopy.put("Status",copy.getStatus());
+
+        copyCollectionRef.document(copy.getBookId()).collection("BookCopy").document(copy.getId()).set(newBookCopy);
+    }
+    // cập nhật bản sao của sách - Manager
+    public static void UpdateBookCopy(@NonNull Copy copy)
+    {
+        HashMap<String, Object> updateBookCopy = new HashMap<>();
+
+        updateBookCopy.put("Notes",copy.getNotes());
+        updateBookCopy.put("Status",copy.getStatus());
+
+        copyCollectionRef.document(copy.getBookId()).collection("BookCopy").document(copy.getId()).update(updateBookCopy);
+    }
+    // xóa bản sao của sách - Manager
+    public static void DeleteBookCopy(@NonNull String BookId,@NonNull String id)
+    {
+
+        copyCollectionRef.document(BookId).collection("BookCopy").document(id).delete();
+    }
 
     public static void DeleteBookCopy(@NonNull String BookId)
     {
@@ -417,7 +870,10 @@ public class BookstoreProjectDatabase {
     // Thêm thẻ thư viện - Manager
     public static boolean AddLibraryCard(@NonNull LibraryCard libraryCard)
     {
-
+        if (libraryCardCollectionRef.document(libraryCard.getId()) != null)
+        {
+            return false;
+        }
         HashMap<String, Object> libraryCardData = new HashMap<>();
 
         libraryCardData.put("Borrow", libraryCard.getBorrowStatus());
@@ -448,11 +904,26 @@ public class BookstoreProjectDatabase {
     {
         libraryCardCollectionRef.document(id).delete();
     }
+    // Thêm Lần mượn sách- Manager
+    public static void AddLoan(@NonNull Loan loan)
+    {
+        HashMap<String, Object> multiData = new HashMap<>();
+        multiData.put("Id", loan.getCardId());
+        loanCollectionRef.document(loan.getCardId()).set(multiData);
 
+        multiData = new HashMap<>();
+        multiData.put("BorrowDate", loan.getDateLoaned());
+        multiData.put("DateDue", loan.getDateDue());
+        multiData.put("BookCopyId", loan.getCopyId());
+        loanCollectionRef.document(loan.getCardId()).collection(loan.getBookId()).document().set(multiData);
+    }
     // Thêm tài khoản - Manager
     public static boolean AddAccount(@NonNull Account account)
     {
-
+        if (accountCollectionRef.document(account.getAccount()) != null)
+        {
+            return false;
+        }
         //  if(accountCollectionRef.whereEqualTo("Account", account.getAccount()))
         HashMap<String, Object> newAccount = new HashMap<>();
         newAccount.put("Account", account.getAccount());

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/noficart"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="5dp"
+    android:background="#FF0000"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Cấm"
+        android:gravity="center_horizontal"
+        android:layout_margin="4dp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_margin="4dp"
+        android:textColor="@color/black"
+        android:text="13/09/2023" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|left"
+        android:justificationMode="inter_word"
+        android:layout_margin="4dp"
+        android:textColor="@color/black"
+        android:text="Cùng khám phá Fahasa ngay, trải nghiệm những cuốn sách theo thể loại của riêng mình và nhận được các ưu đãi đang chờ đón các bạn, cùng nhau khám phá Fahasa." />
+</LinearLayout>

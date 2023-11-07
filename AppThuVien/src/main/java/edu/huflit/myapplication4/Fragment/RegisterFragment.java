@@ -155,6 +155,7 @@ public class RegisterFragment extends Fragment {
             if(BookstoreProjectDatabase.AddAccount(new Account(accountInput.getText().toString(), accountInput.getText().toString(), "Sinh viên")))
                 BookstoreProjectDatabase.AddLibraryCard(new LibraryCard(accountInput.getText().toString(), nameInput.getText().toString(), toDate, true, false));
         }
+
         MainActivity.instance.currentFragment = new ManageListFragment();
         MainActivity.instance.ReplaceFragment(-1);
     }

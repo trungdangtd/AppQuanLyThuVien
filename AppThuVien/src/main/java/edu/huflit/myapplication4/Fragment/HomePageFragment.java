@@ -92,12 +92,13 @@ public class HomePageFragment extends Fragment implements TextWatcher {
     TextView watchMoreBtn;
     ImageView genreListBtn;
     AutoCompleteTextView searchBar_ACTV;
-    RecyclerView bookList;
+    RecyclerView bookList, bookTopReadList;
     FloatingActionButton addBookBtn;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         BookstoreProjectDatabase.LoadBooks();
         MainActivity.instance.menuBNV.setVisibility(View.VISIBLE);
         MainActivity.instance.menuBNV.setEnabled(true);
@@ -111,8 +112,10 @@ public class HomePageFragment extends Fragment implements TextWatcher {
         searchBar_ACTV = (AutoCompleteTextView)view.findViewById(R.id.myautocomplete);
         sliderView = view.findViewById(R.id.slider);
 
-        bookList = view.findViewById(R.id.Book_List);
+        bookList = view.findViewById(R.id.BookList);
         watchMoreBtn = view.findViewById(R.id.WatchMore);
+
+        bookTopReadList = view.findViewById(R.id.BookListTopRead);
 
         genreListBtn = view.findViewById(R.id.GenreListBtn);
         addBookBtn = view.findViewById(R.id.fab);
@@ -126,7 +129,7 @@ public class HomePageFragment extends Fragment implements TextWatcher {
         watchMoreBtn.setOnClickListener(v -> WatchMoreBtn());
         genreListBtn.setOnClickListener(v -> LoadGenreList());
         if(MainActivity.instance.isLogin) {
-            if (BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên")|| BookstoreProjectDatabase.accountInfo.getRole().equals("Tiếp tân")) {
+            if (BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên")) {
                 addBookBtn.setVisibility(View.INVISIBLE);
                 addBookBtn.setEnabled(false);
             } else if (BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư")) {
@@ -135,6 +138,7 @@ public class HomePageFragment extends Fragment implements TextWatcher {
                 addBookBtn.setOnClickListener(v -> AddBookBtn(view));
             }
         }
+        SearchBar();
         AdsSlider();
     }
 
@@ -158,16 +162,40 @@ public class HomePageFragment extends Fragment implements TextWatcher {
         MainActivity.instance.ReplaceFragment(-1);
     }
 
-    void LoadBookList() {
+    void LoadBookList()
+    {
         ArrayList<Book> randomBooks = new ArrayList<>();
-        for(int i = 1; i < 5; i++)
+        for(int i = 0; i < 5; i++)
             randomBooks.add(BookstoreProjectDatabase.books.get(i));
 
         bookList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.HORIZONTAL, false));
         bookList.setAdapter(new BookAdapter(getActivity().getApplicationContext(), randomBooks));
-        //sách xu hướng ??
+        BookstoreProjectDatabase.LoadBooksSortedWithCopies();
+        ArrayList<Book> randomTopReadBooks = new ArrayList<>();
+        for(int i = 0; i < 5; i++)
+            randomTopReadBooks.add(BookstoreProjectDatabase.booksAfterSorted.get(i));
+
+        bookTopReadList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.HORIZONTAL, false));
+        bookTopReadList.setAdapter(new BookAdapter(getActivity().getApplicationContext(), randomTopReadBooks));
     }
-    //sreach bar để ở đây
+
+    void SearchBar()
+    {
+        searchBar_ACTV.addTextChangedListener(this);
+        searchBar_ACTV.setAdapter(new ArrayAdapter<String>(MainActivity.instance, android.R.layout.simple_dropdown_item_1line, BookstoreProjectDatabase.bookName));
+        searchBar_ACTV.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    MainActivity.instance.currentFragment = new BookListFragment(searchBar_ACTV.getText().toString(), "");
+                    MainActivity.instance.ReplaceFragment(-1);
+                    searchBar_ACTV.setText("");
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 
     // Hiển thị quảng cáo chạy bằng slider
     void AdsSlider()
@@ -205,17 +233,17 @@ public class HomePageFragment extends Fragment implements TextWatcher {
     }
 
     @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
 
     @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
     }
 
     @Override
-    public void afterTextChanged(Editable editable) {
+    public void afterTextChanged(Editable s) {
 
     }
 }
