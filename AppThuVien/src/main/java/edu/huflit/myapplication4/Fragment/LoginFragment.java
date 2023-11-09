@@ -87,7 +87,7 @@ public class LoginFragment extends Fragment {
         accInput = view.findViewById(R.id.accountInput);
         passInput = view.findViewById(R.id.passwordInput);
         loginBtn = view.findViewById(R.id.Login);
-        forgotBtn = view.findViewById(R.id.Forgot);
+
     }
 
     // Gán chức năng cho các pallete

@@ -85,6 +85,8 @@ public class SuggestFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        MainActivity.instance.menuBNV.setVisibility(View.VISIBLE);
+        MainActivity.instance.menuBNV.setEnabled(true);
         super.onViewCreated(view, savedInstanceState);
         GetIDPalletes(view);
         SetPalletes(view);
