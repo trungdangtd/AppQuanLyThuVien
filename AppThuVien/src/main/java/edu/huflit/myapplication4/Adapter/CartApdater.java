@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,10 +68,12 @@ public class CartApdater extends RecyclerView.Adapter<CartApdater.CartVH> {
             }
         });
 
+
         holder.delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bookCarts.remove(bookCarts.get(position));
+                Toast.makeText(context, "Xóa khỏi giỏ hàng", Toast.LENGTH_SHORT).show();
                 notifyDataSetChanged();
             }
         });
@@ -90,7 +93,8 @@ public class CartApdater extends RecyclerView.Adapter<CartApdater.CartVH> {
             super(itemView);
             bookImg = itemView.findViewById(R.id.cartimg);
             bookName = itemView.findViewById(R.id.cartbooktitle);
-            delBtn = itemView.findViewById(R.id.cartdelete);
+            delBtn = itemView.findViewById(R.id.cart_delete);
         }
+
     }
 }
