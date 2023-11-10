@@ -16,7 +16,14 @@
         android:text="Cấm"
         android:gravity="center_horizontal"
         android:layout_margin="4dp"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"></TextView>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="4dp"
+        android:background="@color/black" />
+
 
     <TextView
         android:id="@+id/time"
@@ -26,6 +33,12 @@
         android:layout_margin="4dp"
         android:textColor="@color/black"
         android:text="13/09/2023" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="4dp"
+        android:background="@color/black" />
 
     <TextView
         android:id="@+id/content"

@@ -119,7 +119,16 @@ public class CartFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(), "Hãy chọn sách" + MainActivity.instance.amount, Toast.LENGTH_LONG).show();
             return;
         }
-
+        else if(BookstoreProjectDatabase.libraryCard.getBorrowStatus())
+        {
+            Toast.makeText(getActivity().getApplicationContext(), "Hãy trả sách để mượn tiếp", Toast.LENGTH_LONG).show();
+            return;
+        }
+        else if(!BookstoreProjectDatabase.libraryCard.getUseStatus())
+        {
+            Toast.makeText(getActivity().getApplicationContext(), "Hãy đến quầy và gọi trợ giúp hỗ trợ mở hiệu lực cho thẻ", Toast.LENGTH_LONG).show();
+            return;
+        }
         Calendar currentCal = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
