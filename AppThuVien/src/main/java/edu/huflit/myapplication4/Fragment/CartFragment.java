@@ -100,7 +100,7 @@ public class CartFragment extends Fragment {
 
     void GetIdPalletes(View view)
     {
-        bookCartList = view.findViewById(R.id.cartitem);
+        bookCartList = view.findViewById(R.id.cartItem);
         borrowBtn = view.findViewById(R.id.borrowbutton);
         nofiMessage = view.findViewById(R.id.message);
     }
@@ -159,8 +159,8 @@ public class CartFragment extends Fragment {
 
         BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, true, BookstoreProjectDatabase.libraryCard.getUseStatus());
 
-        bookCartList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.VERTICAL, false));
-        bookCartList.setAdapter(new CartApdater(getActivity().getApplicationContext(), MainActivity.instance.bookCart));
+//        bookCartList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.VERTICAL, false));
+//        bookCartList.setAdapter(new CartApdater(getActivity().getApplicationContext(), MainActivity.instance.bookCart));
         bookCartList.getAdapter().notifyDataSetChanged();
         nofiMessage.setVisibility(View.VISIBLE);
     }

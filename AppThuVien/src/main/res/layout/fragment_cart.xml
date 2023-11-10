@@ -36,7 +36,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cartitem"
+            android:id="@+id/cartItem"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
@@ -54,7 +54,7 @@
             android:textColor="#FFAB40"
             android:textSize="24dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/cartitem"
+            app:layout_constraintBottom_toBottomOf="@+id/cartItem"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
