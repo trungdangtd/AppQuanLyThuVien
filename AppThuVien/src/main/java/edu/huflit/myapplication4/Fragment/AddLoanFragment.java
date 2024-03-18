@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.viewmodel.CreationExtras;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -100,8 +101,8 @@ public class AddLoanFragment extends Fragment implements TextWatcher {
 
     void GetIdPalletes(View view)
     {
-        cardIdInput = view.findViewById(R.id.bookNameInput);
-        bookIdSpin = view.findViewById(R.id.bookIdInput);
+        cardIdInput = view.findViewById(R.id.loanborrowInput);
+        bookIdSpin = view.findViewById(R.id.bookloanIdInput);
         bookCopySpin = view.findViewById(R.id.bookCopyIdInput);
         clearBtn = view.findViewById(R.id.clearbutton);
         addBtn = view.findViewById(R.id.addbutton);
@@ -171,6 +172,14 @@ public class AddLoanFragment extends Fragment implements TextWatcher {
 
     void AddButton()
     {
+        if(TextUtils.isEmpty(cardIdInput.getText().toString())) {
+            cardIdInput.setError("Không được để trống mã sinh viên");
+            return;
+        }
+        if(TextUtils.isEmpty(bookIdSpin.getText().toString())) {
+            bookIdSpin.setError("Không được để trống mã sách");
+            return;
+        }
         Calendar currentCal = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
@@ -183,6 +192,7 @@ public class AddLoanFragment extends Fragment implements TextWatcher {
                 bookCopySpin.getSelectedItem().toString(),
                 currentdate,
                 toDate));
+
 
         for(Copy copy : copyArrayList)
         {
