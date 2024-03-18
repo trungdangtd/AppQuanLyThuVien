@@ -80,6 +80,6 @@ Giao diện trang chủ 📖 :
 
 ## 💻 Hướng dẫn tải về 💻:
 ```bash
-git clone https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3.git
+git clone [https://github.com/trungdangtd/Nhom4_AppQuanLyThuVien_T6_Ca3.git]
 cd projects
 ```
