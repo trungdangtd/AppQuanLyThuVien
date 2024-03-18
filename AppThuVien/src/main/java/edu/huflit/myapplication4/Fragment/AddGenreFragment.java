@@ -114,11 +114,11 @@ public class AddGenreFragment extends Fragment {
     void AddBookBtn(View view)
     {
         if(TextUtils.isEmpty(idGenreInput.getText().toString())) {
-            idGenreInput.setError("Không được để trống tên sách");
+            idGenreInput.setError("Không được để trống ID sách");
             return;
         }
         if(TextUtils.isEmpty(nameGenreInput.getText().toString())) {
-            nameGenreInput.setError("Không được để trống tên tác giả");
+            nameGenreInput.setError("Không được để trống tên loại sách");
             return;
         }
         BookstoreProjectDatabase.AddGenre(new Genre(idGenreInput.getText().toString(),
