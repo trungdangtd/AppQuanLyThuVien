@@ -31,6 +31,7 @@ import edu.huflit.myapplication4.Fragment.ManageListFragment;
 public class BookstoreProjectDatabase {
     private static final String BOOK = "Book"; // Tên bảng
     private static final String COPY = "Copy"; // Tên bảng
+
     private static final String LOAN = "Loan"; // Tên bảng
     private static final String LIBRARYCARD = "LibraryCard"; // Tên bảng
     private static final String GENRE = "Genre"; // Tên bảng
@@ -973,10 +974,20 @@ public class BookstoreProjectDatabase {
     {
         accountCollectionRef.document(nameAccount).delete();
     }
+    public static void AddGenre(@NonNull Genre genre){
+        HashMap<String, Object> newGenre = new HashMap<>();
+        newGenre.put("Id", genre.getId());
+        newGenre.put("Name", genre.getName());
 
+        genreCollectionRef.document(genre.getId()).set(newGenre);
+        System.out.println("thêm loại sách thành công");
+    }
 }
 
+
+
 class Tuple<X, Y> {
+
     public final X x;
     public final Y y;
     public Tuple(X x, Y y) {

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import edu.huflit.myapplication4.Adapter.GenreAdapter;
@@ -75,6 +76,8 @@ public class GenreListFragment extends Fragment {
     }
     RecyclerView genreListRV;
     ImageView backBtn;
+
+    Button btnadd;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -87,6 +90,25 @@ public class GenreListFragment extends Fragment {
     {
         genreListRV = view.findViewById(R.id.GenreList);
         backBtn = view.findViewById(R.id.backBtn);
+        btnadd = view.findViewById(R.id.btnAddGenre);
+
+        if(MainActivity.instance.isLogin) {
+            if (BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên")) {
+                btnadd.setVisibility(View.INVISIBLE);
+                btnadd.setEnabled(false);
+            } else if (BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư")) {
+                btnadd.setVisibility(View.VISIBLE);
+                btnadd.setEnabled(true);
+                btnadd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MainActivity.instance.currentFragment = new AddGenreFragment();
+                        MainActivity.instance.ReplaceFragment(-1);
+                    }
+                });
+            }
+        }
+
     }
 
     void SetPalletes()
@@ -99,6 +121,7 @@ public class GenreListFragment extends Fragment {
         genreListRV.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.VERTICAL, false));
         genreListRV.setAdapter(new GenreAdapter(getActivity().getApplicationContext(), BookstoreProjectDatabase.genres));
     }
+
 
     void BackToPage()
     {

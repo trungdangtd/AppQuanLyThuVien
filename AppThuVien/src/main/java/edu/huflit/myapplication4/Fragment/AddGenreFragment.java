@@ -15,15 +15,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import edu.huflit.myapplication4.BookstoreProjectDatabase;
-import edu.huflit.myapplication4.Entity.Account;
+import edu.huflit.myapplication4.Entity.Genre;
 import edu.huflit.myapplication4.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link UpdateAccountFragment#newInstance} factory method to
+ * Use the {@link AddGenreFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UpdateAccountFragment extends Fragment {
+public class AddGenreFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,25 +33,22 @@ public class UpdateAccountFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    Account account;
-    public UpdateAccountFragment() {
+
+    public AddGenreFragment() {
         // Required empty public constructor
     }
-    public UpdateAccountFragment(Account account) {
-        // Required empty public constructor
-        this.account = account;
-    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UpdateAccountFragment.
+     * @return A new instance of fragment AddGenreFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UpdateAccountFragment newInstance(String param1, String param2) {
-        UpdateAccountFragment fragment = new UpdateAccountFragment();
+    public static AddGenreFragment newInstance(String param1, String param2) {
+        AddGenreFragment fragment = new AddGenreFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,12 +69,12 @@ public class UpdateAccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_update_account, container, false);
+        return inflater.inflate(R.layout.fragment_add_genre, container, false);
     }
 
-    EditText accInput, passInput;
+    EditText idGenreInput, nameGenreInput;
+    Button addGenreBtn, deleteTextBtn;
     ImageView backBtn;
-    Button updateAccountBtn;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -87,36 +84,45 @@ public class UpdateAccountFragment extends Fragment {
 
     void GetIDPalletes(View view)
     {
-        backBtn = view.findViewById(R.id.backBtn);
+        backBtn = view.findViewById(R.id.backBtnGenre);
 
-        accInput = view.findViewById(R.id.accountInput);
-        passInput = view.findViewById(R.id.passInput);
+        idGenreInput = view.findViewById(R.id.IDGenreInput);
+        nameGenreInput = view.findViewById(R.id.NameGenreInput);
 
-        updateAccountBtn = view.findViewById(R.id.updatebutton);
+
+        addGenreBtn = view.findViewById(R.id.addbuttongenre);
+        deleteTextBtn = view.findViewById(R.id.clearbuttongenre);
     }
 
     // Gán chức năng cho các pallete
     void SetPalletes(View view)
     {
         backBtn.setOnClickListener(v -> BackBtn());
-        updateAccountBtn.setOnClickListener(v -> UpdateBookBtn());
-
-        accInput.setText(account.getAccount());
-        accInput.setEnabled(true);
-        passInput.setText(account.getRole());
+        deleteTextBtn.setOnClickListener(v -> DeleteTextBtn());
+        addGenreBtn.setOnClickListener(v -> AddBookBtn(view));
     }
+    Integer current;
     void BackBtn()
     {
         getFragmentManager().popBackStack();
     }
-    void UpdateBookBtn()
+    void DeleteTextBtn()
     {
-        if(TextUtils.isEmpty(passInput.getText().toString())) {
-            passInput.setError("Không được để trống mật khẩu");
+        idGenreInput.setText("");
+        nameGenreInput.setText("");
+    }
+    void AddBookBtn(View view)
+    {
+        if(TextUtils.isEmpty(idGenreInput.getText().toString())) {
+            idGenreInput.setError("Không được để trống tên sách");
             return;
         }
-
-        BookstoreProjectDatabase.UpdateAccount(account.getAccount(), passInput.getText().toString());
+        if(TextUtils.isEmpty(nameGenreInput.getText().toString())) {
+            nameGenreInput.setError("Không được để trống tên tác giả");
+            return;
+        }
+        BookstoreProjectDatabase.AddGenre(new Genre(idGenreInput.getText().toString(),
+                nameGenreInput.getText().toString()));
         getFragmentManager().popBackStack();
     }
 }
