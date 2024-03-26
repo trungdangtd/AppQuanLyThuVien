@@ -91,7 +91,8 @@ public class GenreListFragment extends Fragment {
         genreListRV = view.findViewById(R.id.GenreList);
         backBtn = view.findViewById(R.id.backBtn);
         btnadd = view.findViewById(R.id.btnAddGenre);
-
+        btnadd.setVisibility(View.INVISIBLE);
+        btnadd.setEnabled(false);
         if(MainActivity.instance.isLogin) {
             if (BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên")) {
                 btnadd.setVisibility(View.INVISIBLE);

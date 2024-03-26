@@ -166,6 +166,10 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
 
         if(MainActivity.instance.isLogin && BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
             borrowBookBtn.setOnClickListener(v -> BorrowBtn(view));
+        else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư")){
+            borrowBookBtn.setVisibility(View.INVISIBLE);
+            borrowBookBtn.setEnabled(false);
+        }
     }
     void BorrowBtn(View view)
     {

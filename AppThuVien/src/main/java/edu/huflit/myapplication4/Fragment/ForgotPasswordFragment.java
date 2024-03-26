@@ -80,7 +80,7 @@ public class ForgotPasswordFragment extends Fragment {
     }
     TextView accTitle;
     EditText accInput;
-    EditText passInput;
+    EditText passInput,confirmInput;
     TextView resetBtn;
     TextView returnBtn;
     @Override
@@ -98,6 +98,7 @@ public class ForgotPasswordFragment extends Fragment {
         accInput = view.findViewById(R.id.accountIdentify);
         accTitle = view.findViewById(R.id.textView2);
         passInput = view.findViewById(R.id.newPassword);
+        confirmInput = view.findViewById(R.id.ConfirmnewPassword);
         resetBtn = view.findViewById(R.id.resetPass);
         returnBtn = view.findViewById(R.id.returnBtn);
     }
@@ -126,6 +127,8 @@ public class ForgotPasswordFragment extends Fragment {
 
     void ResetPassword(View view)
     {
+        String password = passInput.getText().toString();
+        String confirmPassword = confirmInput.getText().toString();
         if(TextUtils.isEmpty(accInput.getText().toString())) {
             accInput.setError("Tài khoản không được để trống");
             return;
@@ -134,7 +137,14 @@ public class ForgotPasswordFragment extends Fragment {
             passInput.setError("Mật khẩu không được để trống");
             return;
         }
-
+        if(TextUtils.isEmpty(confirmInput.getText().toString())) {
+            confirmInput.setError("Mậu khẩu không trùng khớp");
+            return;
+        }
+        if(!password.equals(confirmPassword)){
+            confirmInput.setError("Mậu khẩu không trùng khớp");
+            return;
+        }
         if(BookstoreProjectDatabase.UpdateAccount(accInput.getText().toString(), passInput.getText().toString()))
         {
             Snackbar.make(view, "Đổi mật khẩu thành công", Snackbar.LENGTH_LONG)

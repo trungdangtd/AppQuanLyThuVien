@@ -104,12 +104,17 @@ public class CartFragment extends Fragment {
         borrowBtn = view.findViewById(R.id.borrowbutton);
         nofiMessage = view.findViewById(R.id.message);
     }
-
+    void notifyBorrowSuccess() {
+        Toast.makeText(getActivity().getApplicationContext(), "Mượn sách thành công!", Toast.LENGTH_LONG).show();
+    }
     void SetPalletes()
     {
         if(MainActivity.instance.isLogin && BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
             borrowBtn.setOnClickListener(v -> BorrowBtn());
-
+        else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư")) {
+            borrowBtn.setVisibility(View.INVISIBLE);
+            borrowBtn.setEnabled(false);
+        }
         bookCartList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.VERTICAL, false));
         bookCartList.setAdapter(new CartApdater(getActivity().getApplicationContext(), MainActivity.instance.bookCart));
     }
@@ -135,8 +140,6 @@ public class CartFragment extends Fragment {
         String currentdate = dateFormat.format(currentCal.getTime());
         currentCal.add(Calendar.DATE, 15);
         String toDate = dateFormat.format(currentCal.getTime());
-
-
         for (int i = 0; i < MainActivity.instance.bookCart.size(); i++) {
             ArrayList<Copy> copyArrayList = BookstoreProjectDatabase.LoadCopiesWithBookId(MainActivity.instance.bookCart.get(i).getId(), "Còn");
 
@@ -154,13 +157,8 @@ public class CartFragment extends Fragment {
                 }
             }
         }
-
-
-
         BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, true, BookstoreProjectDatabase.libraryCard.getUseStatus());
-
-//        bookCartList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.VERTICAL, false));
-//        bookCartList.setAdapter(new CartApdater(getActivity().getApplicationContext(), MainActivity.instance.bookCart));
+        notifyBorrowSuccess();
         bookCartList.getAdapter().notifyDataSetChanged();
         nofiMessage.setVisibility(View.VISIBLE);
     }
