@@ -1,5 +1,6 @@
 package edu.huflit.myapplication4;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -45,15 +46,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bookCart = new ArrayList<>();
         isLogin = false;
-//        if (android.os.Build.VERSION.SDK_INT > 9) {
-//            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//            StrictMode.setThreadPolicy(policy);
-//        }
         if(instance == null)
             instance = this;
         BookstoreProjectDatabase.ConnectToFirestoreDB();
         GetIDPalletes();
         SetPalletes();
+        // Ẩn ActionBar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
         ReplaceFragment(R.id.home);
     }
 

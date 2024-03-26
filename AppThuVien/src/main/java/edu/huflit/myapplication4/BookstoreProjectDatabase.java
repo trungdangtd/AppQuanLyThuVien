@@ -236,18 +236,6 @@ public class BookstoreProjectDatabase {
         System.out.println("Size copies LoadCopies: " + BookstoreProjectDatabase.copies.size());
     }
 
-    public static ArrayList<Copy> findBooksForLoan() {
-        ArrayList<Copy> booksForLoan = new ArrayList<>();
-
-        for (Copy copy : copies) {
-            if (copy.getStatus() != null && copy.getStatus().equals("cho mượn")) {
-                booksForLoan.add(copy);
-            }
-        }
-
-        return booksForLoan;
-    }
-
     public static ArrayList<Copy> LoadCopiesWithBookId(@NonNull String bookId, @NonNull String status)
     {
         ArrayList<Copy> copyArrayList = new ArrayList<>();
@@ -487,25 +475,6 @@ public class BookstoreProjectDatabase {
         }
     }
 
-    public static void LoadAccountWithId(String roleName, String keyWord)
-    {
-        accounts = new ArrayList<>();
-        Task<QuerySnapshot> accountNames = accountCollectionRef.whereEqualTo("Role", roleName).get();
-        while(true)
-        {
-            if(accountNames.isSuccessful())
-            {
-                for (DocumentSnapshot accountName : accountNames.getResult())
-                {
-                    if(accountName.getString("Account").contains(keyWord)) {
-                        accounts.add(new Account(accountName.getString("Account"), accountName.getString("Password"), accountName.getString("Role")));
-                        System.out.println(accountName.getString("Account"));
-                    }
-                }
-                break;
-            }
-        }
-    }
     // tải thẻ sinh viên - Manager
     public static void LoadLibraryCards()
     {
@@ -529,29 +498,6 @@ public class BookstoreProjectDatabase {
     }
 
     // tải thẻ sinh viên - Manager
-    public static void LoadLibraryCardsWithId(@NonNull String id)
-    {
-        libraryCards = new ArrayList<>();
-        Task<QuerySnapshot> libraryCardIds = libraryCardCollectionRef.get();
-        while(true)
-        {
-            if(libraryCardIds.isSuccessful())
-            {
-                for (DocumentSnapshot libraryCardId : libraryCardIds.getResult())
-                {
-                    if(libraryCardId.getString("Id").contains(id))
-                        libraryCards.add(new LibraryCard(libraryCardId.getString("Id"),
-                                libraryCardId.getString("Name"),
-                                libraryCardId.getString("ExpirationDate"),
-                                libraryCardId.getBoolean("Status"),
-                                libraryCardId.getBoolean("Borrow")));
-                }
-                break;
-            }
-        }
-    }
-
-    // tải thẻ sinh viên - Manager
     public static void LoadLibraryCardsWithName(@NonNull String name)
     {
         libraryCards = new ArrayList<>();
@@ -568,25 +514,6 @@ public class BookstoreProjectDatabase {
                                 libraryCardId.getString("ExpirationDate"),
                                 libraryCardId.getBoolean("Status"),
                                 libraryCardId.getBoolean("Borrow")));
-                }
-                break;
-            }
-        }
-    }
-
-    public static void SortAcccount(String roleName, boolean isAsc)
-    {
-        accounts = new ArrayList<>();
-
-        Task<QuerySnapshot> accountNames = accountCollectionRef.whereEqualTo("Role", roleName).orderBy("Account", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
-        while(true)
-        {
-            if(accountNames.isSuccessful())
-            {
-                for (DocumentSnapshot accountName : accountNames.getResult())
-                {
-                    accounts.add(new Account(accountName.getString("Account"), accountName.getString("Password"), accountName.getString("Role")));
-                    System.out.println(accountName.getString("Account"));
                 }
                 break;
             }
@@ -709,70 +636,6 @@ public class BookstoreProjectDatabase {
             }
         }
     }
-
-    public static void SortLoan(boolean isAsc)
-    {
-        loans = new ArrayList<>();
-        Task<QuerySnapshot> loanIds = loanCollectionRef.get();
-        while(true)
-        {
-            if(loanIds.isSuccessful())
-            {
-                for(DocumentSnapshot loanId : loanIds.getResult()) {
-                    for (Book book : books) {
-                        Task<QuerySnapshot> bookCopyIds = loanCollectionRef.document(loanId.getId()).collection(book.getId()).orderBy("BorrowDate", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
-                        while(true)
-                        {
-                            if(bookCopyIds.isSuccessful())
-                            {
-                                for(DocumentSnapshot bookCopyId : bookCopyIds.getResult())
-                                {
-                                    loans.add(new Loan(book.getId(),
-                                            loanId.getId(),
-                                            bookCopyId.getString("BookCopyId"),
-                                            bookCopyId.getString("BorrowDate"),
-                                            bookCopyId.getString("DateDue")));
-                                }
-                                break;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-                break;
-            }
-        }
-    }
-
-    public static void SortCopies(boolean isAsc)
-    {
-        copies = new ArrayList<>();
-
-        Task<QuerySnapshot> bookIds = copyCollectionRef.orderBy("Id", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
-        while(true) {
-            if (bookIds.isSuccessful()) {
-                for (DocumentSnapshot id : bookIds.getResult()) {
-                    Task<QuerySnapshot> copyIds = copyCollectionRef.document(id.getId()).collection("BookCopy").get();
-                    while(true) {
-                        if (copyIds.isSuccessful()) {
-                            for (DocumentSnapshot copy : copyIds.getResult()) {
-                                copies.add(new Copy(copy.getId(),
-                                        id.getId(),
-                                        copy.getString("Status"),
-                                        copy.getString("Notes")));
-                            }
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-        }
-    }
-
 
     // Thêm sách - Manager
     public static void AddBook(@NonNull Book book)
