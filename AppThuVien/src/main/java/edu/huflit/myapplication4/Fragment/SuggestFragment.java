@@ -89,7 +89,6 @@ public class SuggestFragment extends Fragment {
         MainActivity.instance.menuBNV.setEnabled(true);
         super.onViewCreated(view, savedInstanceState);
         GetIDPalletes(view);
-        SetPalletes(view);
         LoadBookList();
 
         nofiMessage.setEnabled(false);
@@ -105,11 +104,6 @@ public class SuggestFragment extends Fragment {
         bookListRV = view.findViewById(R.id.BookList);
         nofiMessage = view.findViewById(R.id.message);
     }
-
-    void SetPalletes(View view)
-    {
-    }
-
     void LoadBookList()
     {
         BookstoreProjectDatabase.LoadBooksSortedWithCopies();

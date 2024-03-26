@@ -27,6 +27,7 @@ import edu.huflit.myapplication4.Entity.Loan;
 import edu.huflit.myapplication4.Entity.Nofication;
 import edu.huflit.myapplication4.Fragment.AccountFragment;
 import edu.huflit.myapplication4.Fragment.ManageListFragment;
+import edu.huflit.myapplication4.Repository.BookRepository;
 
 public class BookstoreProjectDatabase {
     private static final String BOOK = "Book"; // Tên bảng
@@ -46,7 +47,6 @@ public class BookstoreProjectDatabase {
     public static ArrayList<LibraryCard> libraryCards;
     public static ArrayList<Loan> loans;
     public static Account accountInfo;
-    public static Copy copyinfo;
     public static LibraryCard libraryCard;
     @SuppressLint("StaticFieldLeak")
     static FirebaseFirestore database;
@@ -94,15 +94,6 @@ public class BookstoreProjectDatabase {
         }
     }
 
-    public static void AddNofication(Nofication nofication)
-    {
-        HashMap<String, Object> multiData = new HashMap<>();
-        multiData.put("Title", nofication.getTitle());
-        multiData.put("Content", nofication.getContent());
-        multiData.put("DateUpdate", nofication.getDateUpdate());
-        multiData.put("IdStudent", nofication.getIdStudent());
-        noficationCollectionRef.document().set(multiData);
-    }
     public static ArrayList<Book> booksAfterSorted;
     // Tải sách
     public static void LoadBooksSortedWithCopies()
@@ -173,7 +164,6 @@ public class BookstoreProjectDatabase {
     }
 
     public static ArrayList<Book> GetBooks() { return books; }
-    public static ArrayList<Copy> GetCopies() { return copies; }
 
     public static ArrayList<String> bookIDs;
 
@@ -497,29 +487,6 @@ public class BookstoreProjectDatabase {
         }
     }
 
-    // tải thẻ sinh viên - Manager
-    public static void LoadLibraryCardsWithName(@NonNull String name)
-    {
-        libraryCards = new ArrayList<>();
-        Task<QuerySnapshot> libraryCardIds = libraryCardCollectionRef.get();
-        while(true)
-        {
-            if(libraryCardIds.isSuccessful())
-            {
-                for (DocumentSnapshot libraryCardId : libraryCardIds.getResult())
-                {
-                    if(libraryCardId.getString("Name").contains(name))
-                        libraryCards.add(new LibraryCard(libraryCardId.getString("Id"),
-                                libraryCardId.getString("Name"),
-                                libraryCardId.getString("ExpirationDate"),
-                                libraryCardId.getBoolean("Status"),
-                                libraryCardId.getBoolean("Borrow")));
-                }
-                break;
-            }
-        }
-    }
-
     public static void SortBookWithName(boolean isAsc, String genre)
     {
         System.out.println("Thể loại: " + genre);
@@ -578,27 +545,6 @@ public class BookstoreProjectDatabase {
         }
     }
 
-    public static void SortLibraryCard(boolean isAsc)
-    {
-        libraryCards = new ArrayList<>();
-        Task<QuerySnapshot> libraryCardIds = libraryCardCollectionRef.orderBy("Id", isAsc ? Query.Direction.ASCENDING : Query.Direction.DESCENDING).get();
-        while(true)
-        {
-            if(libraryCardIds.isSuccessful())
-            {
-                for (DocumentSnapshot libraryCardId : libraryCardIds.getResult())
-                {
-                    libraryCards.add(new LibraryCard(libraryCardId.getString("Id"),
-                            libraryCardId.getString("Name"),
-                            libraryCardId.getString("ExpirationDate"),
-                            libraryCardId.getBoolean("Status"),
-                            libraryCardId.getBoolean("Borrow")));
-                }
-                break;
-            }
-        }
-    }
-
     public static void LoadLoan()
     {
         Boolean isDone = false;
@@ -640,58 +586,19 @@ public class BookstoreProjectDatabase {
     // Thêm sách - Manager
     public static void AddBook(@NonNull Book book)
     {
-        ArrayList<String> contentParts = new ArrayList<>();
-        String[] parts =  book.getContent().split("\n");
-
-        for(String part : parts)
-        {
-            contentParts.add(part);
-        }
-
-
-        HashMap<String, Object> newBook = new HashMap<>();
-        newBook.put("Author", book.getAuthor());
-        newBook.put("Content", contentParts);
-        newBook.put("Genre", book.getGenre());
-        newBook.put("Id", book.getId());
-        newBook.put("Name", book.getTitle());
-        newBook.put("Publisher", book.getPublisher());
-        newBook.put("URL", book.getUrlImage());
-        newBook.put("YearPublished", book.getYearPublished());
-
-        bookCollectionRef.document(book.getId()).set(newBook);
-        System.out.println("Thêm sách thành công: " + newBook);
+        BookRepository.addBook(book);
     }
 
     // cập nhập sách - Manager
     public static void UpdateBook(@NonNull Book book)
     {
-        ArrayList<String> contentParts = new ArrayList<>();
-        String[] parts =  book.getContent().split("\n");
-
-        for(String part : parts)
-        {
-            contentParts.add(part);
-        }
-
-
-        HashMap<String, Object> newBook = new HashMap<>();
-        newBook.put("Author", book.getAuthor());
-        newBook.put("Content", contentParts);
-        newBook.put("Genre", book.getGenre());
-        newBook.put("Name", book.getTitle());
-        newBook.put("Publisher", book.getPublisher());
-        newBook.put("URL", book.getUrlImage());
-        newBook.put("YearPublished", book.getYearPublished());
-
-        bookCollectionRef.document(book.getId()).update(newBook);
-        System.out.println("Chỉnh sửa sách thành công: " + newBook);
+        BookRepository.updateBook(book);
     }
 
     // xóa sách - Manager
     public static void DeleteBook(@NonNull String id)
     {
-        bookCollectionRef.document(id).delete();
+        BookRepository.deleteBook(id);
     }
 
     // Thêm bản sao của sách - Manager
@@ -784,10 +691,10 @@ public class BookstoreProjectDatabase {
     // Thêm tài khoản - Manager
     public static boolean AddAccount(@NonNull Account account)
     {
-        if (accountCollectionRef.document(account.getAccount()) != null)
-        {
-            return false;
-        }
+//        if (accountCollectionRef.document(account.getAccount()) != null)
+//        {
+//            return false;
+//        }
         //  if(accountCollectionRef.whereEqualTo("Account", account.getAccount()))
         HashMap<String, Object> newAccount = new HashMap<>();
         newAccount.put("Account", account.getAccount());
@@ -796,6 +703,7 @@ public class BookstoreProjectDatabase {
         newAccount.put("isLogin", false);
 
         accountCollectionRef.document(account.getAccount()).set(newAccount);
+        System.out.println("dang ky thanh cong");
         return true;
     }
     // Cập nhật tài khoản - Manager
@@ -847,8 +755,6 @@ public class BookstoreProjectDatabase {
     }
 }
 
-
-
 class Tuple<X, Y> {
 
     public final X x;
@@ -857,5 +763,6 @@ class Tuple<X, Y> {
         this.x = x;
         this.y = y;
     }
+
 }
 

@@ -176,18 +176,20 @@ public class AddBookFragment extends Fragment {
             }
         }
 
-        Snackbar.make(view, bookIdFixed, Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-
-        BookstoreProjectDatabase.AddBook(new Book(bookIdFixed,
+        Book book = new Book(bookIdFixed,
                 bookNameInput.getText().toString(),
                 bookAuthorInput.getText().toString(),
                 genreInput.getSelectedItem().toString(),
                 bookContentInput.getText().toString(),
                 yearPublishedInput.getSelectedItem().toString(),
                 bookPublisherInput.getText().toString(),
-                bookURLInput.getText().toString()
-        ));
+                bookURLInput.getText().toString());
+
+        BookstoreProjectDatabase.AddBook(book);
+
+        Snackbar.make(view, bookIdFixed, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+
         getFragmentManager().popBackStack();
     }
 

@@ -6,15 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import edu.huflit.myapplication4.DecoratorForLogin.AuthDecorator;
 import edu.huflit.myapplication4.BookstoreProjectDatabase;
-import edu.huflit.myapplication4.MainActivity;
+import edu.huflit.myapplication4.DecoratorForLogin.LoggingDecorator;
+import edu.huflit.myapplication4.DecoratorForLogin.LoginDecorator;
+import edu.huflit.myapplication4.DecoratorForLogin.LoginFunctionality;
 import edu.huflit.myapplication4.R;
 
 /**
@@ -73,12 +75,12 @@ public class LoginFragment extends Fragment {
     EditText accInput;
     EditText passInput;
     TextView loginBtn;
-    TextView forgotBtn;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         GetIDPalletes(view);
         SetPalletes(view);
+
     }
 
     // Gọi các pallete có trong layout
@@ -90,23 +92,20 @@ public class LoginFragment extends Fragment {
 
     }
 
+    // Phương thức đăng nhập cơ bản
+    private void login(View view, String account, String password) {
+        // Triển khai chức năng đăng nhập ở đây
+        BookstoreProjectDatabase.SearchAccount(account, password, view);
+    }
+
     // Gán chức năng cho các pallete
     void SetPalletes(View view)
     {
-        loginBtn.setOnClickListener(v -> Login(view));
-    }
-
-    void Login(View view)
-    {
-        if(TextUtils.isEmpty(accInput.getText().toString())) {
-            accInput.setError("Tài khoản không được để trống");
-            return;
-        }
-        if(TextUtils.isEmpty(passInput.getText().toString())) {
-            passInput.setError("Mật khẩu không được để trống");
-            return;
-        }
-        BookstoreProjectDatabase.SearchAccount(accInput.getText().toString(), passInput.getText().toString(), view);
+        // Sử dụng Decorator để gắn thêm chức năng kiểm tra xác thực
+        loginBtn.setOnClickListener(v -> {
+            LoginFunctionality loginFunctionality = new AuthDecorator(new LoginDecorator(new LoggingDecorator(this::login)));
+            loginFunctionality.login(view, accInput.getText().toString(), passInput.getText().toString());
+        });
     }
 
 }

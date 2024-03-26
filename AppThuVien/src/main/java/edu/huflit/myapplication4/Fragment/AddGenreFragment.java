@@ -88,8 +88,6 @@ public class AddGenreFragment extends Fragment {
 
         idGenreInput = view.findViewById(R.id.IDGenreInput);
         nameGenreInput = view.findViewById(R.id.NameGenreInput);
-
-
         addGenreBtn = view.findViewById(R.id.addbuttongenre);
         deleteTextBtn = view.findViewById(R.id.clearbuttongenre);
     }

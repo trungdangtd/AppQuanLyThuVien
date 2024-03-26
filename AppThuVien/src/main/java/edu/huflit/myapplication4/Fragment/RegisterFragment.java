@@ -15,15 +15,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
 import edu.huflit.myapplication4.BookstoreProjectDatabase;
-import edu.huflit.myapplication4.Entity.Account;
-import edu.huflit.myapplication4.Entity.LibraryCard;
 import edu.huflit.myapplication4.MainActivity;
+import edu.huflit.myapplication4.Stagely.ManagerRegistrationStrategy;
 import edu.huflit.myapplication4.R;
+import edu.huflit.myapplication4.Stagely.RoleStrategy;
+import edu.huflit.myapplication4.Stagely.StudentRegistrationStrategy;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +37,7 @@ public class RegisterFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    public RoleStrategy roleStrategy;
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -139,23 +136,17 @@ public class RegisterFragment extends Fragment {
         {
             if(TextUtils.isEmpty(accountInput.getText().toString()))
                 accountInput.setError("Tài khoản không được để trống");
-            BookstoreProjectDatabase.AddAccount(new Account(accountInput.getText().toString(), accountInput.getText().toString(), roleSpin.getSelectedItem().toString()));
+                roleStrategy = new ManagerRegistrationStrategy();
+                roleStrategy.register(accountInput.getText().toString(), accountInput.getText().toString(), roleSpin.getSelectedItem().toString());
         }
         else {
             if(TextUtils.isEmpty(accountInput.getText().toString()))
                 accountInput.setError("Tài khoản không được để trống");
             else if(TextUtils.isEmpty(nameInput.getText().toString()))
                 nameInput.setError("Tên không được để trống");
-
-            Calendar currentCal = Calendar.getInstance();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            currentCal.add(Calendar.DATE, 1095);
-            String toDate = dateFormat.format(currentCal.getTime());
-
-            if(BookstoreProjectDatabase.AddAccount(new Account(accountInput.getText().toString(), accountInput.getText().toString(), "Sinh viên")))
-                BookstoreProjectDatabase.AddLibraryCard(new LibraryCard(accountInput.getText().toString(), nameInput.getText().toString(), toDate, true, false));
+                roleStrategy = new StudentRegistrationStrategy();
+                roleStrategy.register(accountInput.getText().toString(), accountInput.getText().toString(), "Sinh viên");
         }
-
         MainActivity.instance.currentFragment = new ManageListFragment();
         MainActivity.instance.ReplaceFragment(-1);
     }
