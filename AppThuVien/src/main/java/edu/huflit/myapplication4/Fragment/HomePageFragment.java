@@ -165,14 +165,14 @@ public class HomePageFragment extends Fragment implements TextWatcher {
     void LoadBookList()
     {
         ArrayList<Book> randomBooks = new ArrayList<>();
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 8; i++)
             randomBooks.add(BookstoreProjectDatabase.books.get(i));
 
         bookList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.HORIZONTAL, false));
         bookList.setAdapter(new BookAdapter(getActivity().getApplicationContext(), randomBooks));
         BookstoreProjectDatabase.LoadBooksSortedWithCopies();
         ArrayList<Book> randomTopReadBooks = new ArrayList<>();
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 8; i++)
             randomTopReadBooks.add(BookstoreProjectDatabase.booksAfterSorted.get(i));
 
         bookTopReadList.setLayoutManager(new LinearLayoutManager(MainActivity.instance, RecyclerView.HORIZONTAL, false));
