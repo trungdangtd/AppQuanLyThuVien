@@ -129,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             if (shouldRun) {
-                /* Put your code here */
-                // Run again after 200 milliseconds (1/5 sec)
+
                 if (MainActivity.instance.isLogin && !TextUtils.isEmpty(BookstoreProjectDatabase.libraryCard.getId())) {
                     if (BookstoreProjectDatabase.libraryCard.getUseStatus()) {
                         Date c = Calendar.getInstance().getTime();
@@ -144,27 +143,21 @@ public class MainActivity extends AppCompatActivity {
                             String[] currentDateOfCart = expirationDate.split("/");
                             String[] formattedDateSplited = formattedDate.split("/");
 
-                            // Check the length of arrays before accessing their elements
-                            if (currentDateOfCart.length >= 3 && formattedDateSplited.length >= 3) {
-                                if (Integer.valueOf(currentDateOfCart[2]) > Integer.valueOf(formattedDateSplited[2])) {
+
+                                if (Integer.valueOf(currentDateOfCart[2]) < Integer.valueOf(formattedDateSplited[2])) {
                                     BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, false);
                                     BookstoreProjectDatabase.AddNofication(new Nofication("Cấm", formattedDate, "Hạn sử dụng thẻ đã vượt quá thời hạn sử dụng được", BookstoreProjectDatabase.libraryCard.getId()));
                                     BookstoreProjectDatabase.libraryCard.setUseStatus(false);
-                                } else if (Integer.valueOf(currentDateOfCart[1]) > Integer.valueOf(formattedDateSplited[1])) {
+                                } else if (Integer.valueOf(currentDateOfCart[1]) < Integer.valueOf(formattedDateSplited[1])) {
                                     BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, false);
                                     BookstoreProjectDatabase.AddNofication(new Nofication("Cấm", formattedDate, "Hạn sử dụng thẻ đã vượt quá thời hạn sử dụng được", BookstoreProjectDatabase.libraryCard.getId()));
                                     BookstoreProjectDatabase.libraryCard.setUseStatus(false);
-                                } else if (Integer.valueOf(currentDateOfCart[0]) > Integer.valueOf(formattedDateSplited[0])) {
+                                } else if (Integer.valueOf(currentDateOfCart[0]) < Integer.valueOf(formattedDateSplited[0])) {
                                     BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, false);
                                     BookstoreProjectDatabase.AddNofication(new Nofication("Cấm", formattedDate, "Hạn sử dụng thẻ đã vượt quá thời hạn sử dụng được", BookstoreProjectDatabase.libraryCard.getId()));
                                     BookstoreProjectDatabase.libraryCard.setUseStatus(false);
                                 }
-                            } else {
-                                // Handle the case where arrays do not contain enough elements
                             }
-                        } else {
-                            // Handle the case where the expirationDate does not contain "/"
-                        }
 
                         if (BookstoreProjectDatabase.libraryCard.getBorrowStatus()) {
                             Calendar currentCal = new GregorianCalendar();
@@ -187,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                timerHandler.postDelayed(this, 200);
+                timerHandler.postDelayed(this, 1000);
             }
         }
     };
