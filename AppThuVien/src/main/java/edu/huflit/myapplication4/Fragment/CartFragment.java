@@ -18,12 +18,14 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import edu.huflit.myapplication4.Adapter.CartApdater;
 import edu.huflit.myapplication4.BookstoreProjectDatabase;
 import edu.huflit.myapplication4.Entity.Copy;
 import edu.huflit.myapplication4.Entity.Loan;
+import edu.huflit.myapplication4.Entity.Nofication;
 import edu.huflit.myapplication4.MainActivity;
 import edu.huflit.myapplication4.R;
 
@@ -159,6 +161,12 @@ public class CartFragment extends Fragment {
         }
         BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, true, BookstoreProjectDatabase.libraryCard.getUseStatus());
         notifyBorrowSuccess();
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        BookstoreProjectDatabase.AddNofication(new Nofication("Bình thường", formattedDate, "Mượn sách thành công", BookstoreProjectDatabase.libraryCard.getId()));
         bookCartList.getAdapter().notifyDataSetChanged();
         nofiMessage.setVisibility(View.VISIBLE);
     }

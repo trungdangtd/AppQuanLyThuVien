@@ -18,6 +18,6 @@ public class StudentRegistrationStrategy implements RoleStrategy{
         String toDate = dateFormat.format(currentCal.getTime());
 
         BookstoreProjectDatabase.AddAccount(new Account(account, account, "Sinh viên"));
-        BookstoreProjectDatabase.AddLibraryCard(new LibraryCard(account, name, toDate, true, false));
+        BookstoreProjectDatabase.AddLibraryCard(new LibraryCard(account, name, toDate, true, false,""));
     }
 }

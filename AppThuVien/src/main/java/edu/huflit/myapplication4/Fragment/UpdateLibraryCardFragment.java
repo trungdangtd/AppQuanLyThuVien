@@ -129,6 +129,12 @@ public class UpdateLibraryCardFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.instance, android.R.layout.simple_spinner_dropdown_item, years);
         //set the spinners adapter to the previously created one.
         ExpirationDate.setAdapter(adapter);
+        for (int i = 0; i < years.size(); i++) {
+            if (years.get(i).equals(libraryCard.getExpirationDate())) {
+                ExpirationDate.setSelection(i);
+                break;
+            }
+        }
     }
     void UseStatusInput()
     {
