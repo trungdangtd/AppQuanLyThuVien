@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import edu.huflit.myapplication4.Adapter.BookAdapter;
 import edu.huflit.myapplication4.BookstoreProjectDatabase;
 import edu.huflit.myapplication4.Entity.Book;
+import edu.huflit.myapplication4.Singleton.LoggingManager;
 import edu.huflit.myapplication4.MainActivity;
 import edu.huflit.myapplication4.R;
 
@@ -46,6 +47,7 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
     private String mParam1;
     private String mParam2;
     Book book;
+    private LoggingManager loggingManager;
 
     public BookDetailFragment() {
         // Required empty public constructor
@@ -53,6 +55,7 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
     public BookDetailFragment(Book book) {
         // Required empty public constructor
         this.book = book;
+        this.loggingManager = LoggingManager.getInstance();
         BookstoreProjectDatabase.LoadBooksWithGenre(book.getGenre());
         MainActivity.instance.menuBNV.setVisibility(View.GONE);
         MainActivity.instance.menuBNV.setEnabled(false);
@@ -106,7 +109,7 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
         books = new ArrayList<>();
         GetIDPalletes(view);
         SetPalletes(view);
-
+        bookViewed();
         LoadBookList();
 
     }
@@ -166,6 +169,10 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
 
         if(MainActivity.instance.isLogin && BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
             borrowBookBtn.setOnClickListener(v -> BorrowBtn(view));
+        else if(!MainActivity.instance.isLogin){
+            borrowBookBtn.setVisibility(View.VISIBLE);
+            borrowBookBtn.setOnClickListener(v -> Toast.makeText(getActivity().getApplicationContext(), "Hãy đăng nhập để mượn sách", Toast.LENGTH_SHORT).show());
+        }
         else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư")){
             borrowBookBtn.setVisibility(View.INVISIBLE);
             borrowBookBtn.setEnabled(false);
@@ -249,6 +256,10 @@ public class BookDetailFragment extends Fragment implements TextWatcher {
             }
             return false;
         });
+    }
+    void bookViewed() {
+        loggingManager.logBookView(book);
+        // Các hoạt động khác sau khi ghi lại cuốn sách được xem
     }
 
     @Override

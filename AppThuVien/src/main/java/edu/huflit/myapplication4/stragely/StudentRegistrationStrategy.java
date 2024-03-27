@@ -1,4 +1,4 @@
-package edu.huflit.myapplication4.Stagely;
+package edu.huflit.myapplication4.stragely;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

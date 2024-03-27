@@ -1,4 +1,4 @@
-package edu.huflit.myapplication4.Stagely;
+package edu.huflit.myapplication4.stragely;
 
 import edu.huflit.myapplication4.BookstoreProjectDatabase;
 import edu.huflit.myapplication4.Entity.Account;

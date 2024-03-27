@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 import edu.huflit.myapplication4.BookstoreProjectDatabase;
 import edu.huflit.myapplication4.MainActivity;
-import edu.huflit.myapplication4.Stagely.ManagerRegistrationStrategy;
+import edu.huflit.myapplication4.stragely.ManagerRegistrationStrategy;
 import edu.huflit.myapplication4.R;
-import edu.huflit.myapplication4.Stagely.RoleStrategy;
-import edu.huflit.myapplication4.Stagely.StudentRegistrationStrategy;
+import edu.huflit.myapplication4.stragely.RoleStrategy;
+import edu.huflit.myapplication4.stragely.StudentRegistrationStrategy;
 
 /**
  * A simple {@link Fragment} subclass.
