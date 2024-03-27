@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -32,7 +33,7 @@ import edu.huflit.myapplication4.Fragment.ManageListFragment;
 import edu.huflit.myapplication4.Fragment.NotificationFragment;
 import edu.huflit.myapplication4.Fragment.SuggestFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     // Singleton
     public static MainActivity instance;
@@ -41,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
     // Other
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    public Fragment currentFragment;
 
+    CartFragment cartFragment;
+    public Fragment currentFragment;
     public ArrayList<Book> bookCart;
     public int amount = 0;
     public static final int maxAmount = 3;
@@ -65,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
             actionBar.hide();
         }
         ReplaceFragment(R.id.home);
+//        cartFragment = new CartFragment();
+//        if (cartFragment != null) {
+//            cartFragment.addObserver(this);
+//        }
     }
 
     // Gọi các pallete có trong layout
@@ -122,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.MainFrame, currentFragment);
         fragmentTransaction.addToBackStack(currentFragment.toString());
         fragmentTransaction.commitAllowingStateLoss();
+        cartFragment = new CartFragment();
+
     }
     private Handler timerHandler = new Handler();
     private boolean shouldRun = true;
@@ -200,8 +208,17 @@ public class MainActivity extends AppCompatActivity {
         shouldRun = false;
         timerHandler.removeCallbacksAndMessages(timerRunnable);
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        // Gỡ bỏ ConcreteObserver khi hoạt động hoặc fragment bị hủy
+//        if (cartFragment != null) {
+//            cartFragment.removeObserver(this);
+//        }
+    }
     public int daysBetween(Date d1, Date d2){
         return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
     }
+
+
 }
