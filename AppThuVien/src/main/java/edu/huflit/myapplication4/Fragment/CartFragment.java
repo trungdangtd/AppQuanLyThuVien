@@ -120,6 +120,10 @@ public class CartFragment extends Fragment {
     {
         if(MainActivity.instance.isLogin && BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
             borrowBtn.setOnClickListener(v -> BorrowBtn());
+        else if(!MainActivity.instance.isLogin){
+            borrowBtn.setVisibility(View.VISIBLE);
+            borrowBtn.setOnClickListener(v -> Toast.makeText(getActivity().getApplicationContext(), "Hãy đăng nhập để mượn sách", Toast.LENGTH_SHORT).show());
+        }
         else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư")) {
             borrowBtn.setVisibility(View.INVISIBLE);
             borrowBtn.setEnabled(false);

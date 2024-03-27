@@ -7,24 +7,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
-import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 
+import edu.huflit.myapplication4.Composite.BookBorrowCheck;
+import edu.huflit.myapplication4.Composite.CardExpirationCheck;
+import edu.huflit.myapplication4.Composite.LibraryComponent;
+import edu.huflit.myapplication4.Composite.LibraryTaskComposite;
 import edu.huflit.myapplication4.Entity.Book;
-import edu.huflit.myapplication4.Entity.Nofication;
 import edu.huflit.myapplication4.Fragment.AccountFragment;
 import edu.huflit.myapplication4.Fragment.CartFragment;
 import edu.huflit.myapplication4.Fragment.HomePageFragment;
@@ -37,77 +31,105 @@ public class MainActivity extends AppCompatActivity  {
 
     // Singleton
     public static MainActivity instance;
-    // Tên của Pallete
-    public BottomNavigationView menuBNV;
-    // Other
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
 
-    CartFragment cartFragment;
+    // Views
+    public BottomNavigationView menuBNV;
+
+    // Fragment management
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
     public Fragment currentFragment;
+
+    // Library task
+    private LibraryComponent libraryTask;
+
+    // Data
     public ArrayList<Book> bookCart;
     public int amount = 0;
     public static final int maxAmount = 3;
     public Boolean isLogin;
+
+    // Lifecycle methods
     @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize data
         bookCart = new ArrayList<>();
         isLogin = false;
-        if(instance == null)
+
+        // Singleton instance
+        if (instance == null)
             instance = this;
+
+        // Connect to Firestore
         BookstoreProjectDatabase.ConnectToFirestoreDB();
+
+        // Initialize views
         GetIDPalletes();
+
+        // Set up view functionalities
         SetPalletes();
-        // Ẩn ActionBar
+
+        // Hide ActionBar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
+
+        // Replace default fragment
         ReplaceFragment(R.id.home);
-//        cartFragment = new CartFragment();
-//        if (cartFragment != null) {
-//            cartFragment.addObserver(this);
-//        }
+
+        // Initialize library task
+        libraryTask = new LibraryTaskComposite();
+        libraryTask.addComponent(new CardExpirationCheck());
+        libraryTask.addComponent(new BookBorrowCheck());
     }
 
-    // Gọi các pallete có trong layout
-    void GetIDPalletes()
-    {
+    @Override
+    public void onResume() {
+        super.onResume();
+        timerHandler.postDelayed(timerRunnable, 0);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        shouldRun = false;
+        timerHandler.removeCallbacks(timerRunnable);
+    }
+
+    // Helper methods
+
+    // Get IDs of views
+    void GetIDPalletes() {
         menuBNV = findViewById(R.id.MenuBottomNavigation);
     }
 
-    // Gán chức năng cho các pallete
-    void SetPalletes()
-    {
-        // menu bottom
-        menuBNV.setOnItemSelectedListener(item ->
-        {
+    // Set up functionalities for views
+    void SetPalletes() {
+        menuBNV.setOnItemSelectedListener(item -> {
             ReplaceFragment(item.getItemId());
             return true;
         });
-
-
     }
 
-    // Thay đổi giao diện fragment trong activity
+    // Replace fragments based on menu item selected
     @SuppressLint("NonConstantResourceId")
-    public void ReplaceFragment(int idFrag)
-    {
-        switch (idFrag)
-        {
+    public void ReplaceFragment(int idFrag) {
+        switch (idFrag) {
             case R.id.home:
                 currentFragment = new HomePageFragment();
                 break;
             case R.id.account:
-                if(!isLogin)
+                if (!isLogin)
                     currentFragment = new LoginFragment();
                 else {
-                    if( BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
+                    if (BookstoreProjectDatabase.accountInfo.getRole().equals("Sinh viên"))
                         currentFragment = new AccountFragment();
-                    else if(BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ kho")  || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
+                    else if (BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ kho") || BookstoreProjectDatabase.accountInfo.getRole().equals("Thủ thư"))
                         currentFragment = new ManageListFragment();
                 }
                 break;
@@ -128,97 +150,18 @@ public class MainActivity extends AppCompatActivity  {
         fragmentTransaction.replace(R.id.MainFrame, currentFragment);
         fragmentTransaction.addToBackStack(currentFragment.toString());
         fragmentTransaction.commitAllowingStateLoss();
-        cartFragment = new CartFragment();
-
     }
+
+    // Runnable for library task
     private Handler timerHandler = new Handler();
     private boolean shouldRun = true;
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
             if (shouldRun) {
-
-                if (MainActivity.instance.isLogin && !TextUtils.isEmpty(BookstoreProjectDatabase.libraryCard.getId())) {
-                    if (BookstoreProjectDatabase.libraryCard.getUseStatus()) {
-                        Date c = Calendar.getInstance().getTime();
-                        System.out.println("Current time => " + c);
-
-                        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                        String formattedDate = df.format(c);
-
-                        String expirationDate = BookstoreProjectDatabase.libraryCard.getExpirationDate();
-                        if (expirationDate.contains("/")) {
-                            String[] currentDateOfCart = expirationDate.split("/");
-                            String[] formattedDateSplited = formattedDate.split("/");
-
-
-                                if (Integer.valueOf(currentDateOfCart[2]) < Integer.valueOf(formattedDateSplited[2])) {
-                                    BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, false);
-                                    BookstoreProjectDatabase.AddNofication(new Nofication("Cấm", formattedDate, "Hạn sử dụng thẻ đã vượt quá thời hạn sử dụng được", BookstoreProjectDatabase.libraryCard.getId()));
-                                    BookstoreProjectDatabase.libraryCard.setUseStatus(false);
-                                } else if (Integer.valueOf(currentDateOfCart[1]) < Integer.valueOf(formattedDateSplited[1])) {
-                                    BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, false);
-                                    BookstoreProjectDatabase.AddNofication(new Nofication("Cấm", formattedDate, "Hạn sử dụng thẻ đã vượt quá thời hạn sử dụng được", BookstoreProjectDatabase.libraryCard.getId()));
-                                    BookstoreProjectDatabase.libraryCard.setUseStatus(false);
-                                } else if (Integer.valueOf(currentDateOfCart[0]) < Integer.valueOf(formattedDateSplited[0])) {
-                                    BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, false);
-                                    BookstoreProjectDatabase.AddNofication(new Nofication("Cấm", formattedDate, "Hạn sử dụng thẻ đã vượt quá thời hạn sử dụng được", BookstoreProjectDatabase.libraryCard.getId()));
-                                    BookstoreProjectDatabase.libraryCard.setUseStatus(false);
-                                }
-                            }
-
-                        if (BookstoreProjectDatabase.libraryCard.getBorrowStatus()) {
-                            Calendar currentCal = new GregorianCalendar();
-                            Calendar currentCal1 = new GregorianCalendar();
-
-                            String[] splitBorrowDate = BookstoreProjectDatabase.libraryCard.getDateBorrow().split("/");
-                            currentCal1.setTime(new Date(Integer.valueOf(splitBorrowDate[2]) - 1900, Integer.valueOf(splitBorrowDate[1]) - 1, Integer.valueOf(splitBorrowDate[0])));
-
-                            System.out.println("currentCal => " + currentCal.getTime());
-                            System.out.println("currentCal1 => " + currentCal1.getTime());
-
-                            System.out.println("Days= " + daysBetween(currentCal1.getTime(), currentCal.getTime()));
-
-                            if (daysBetween(currentCal1.getTime(), currentCal.getTime()) >= 15) {
-                                BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, false);
-                                BookstoreProjectDatabase.AddNofication(new Nofication("Cấm", formattedDate, "Hạn sử dụng thẻ đã vượt quá thời hạn sử dụng được", BookstoreProjectDatabase.libraryCard.getId()));
-                                BookstoreProjectDatabase.libraryCard.setUseStatus(false);
-                            }
-                        }
-                    }
-                }
-
+                libraryTask.performTask();
                 timerHandler.postDelayed(this, 1000);
             }
         }
     };
-    //In this example, the timer is started when the activity is loaded, but this need not to be the case
-    @Override
-    public void onResume() {
-        super.onResume();
-        /* ... */
-        timerHandler.postDelayed(timerRunnable, 0);
-    }
-
-    //Stop task when the user quits the activity
-    @Override
-    public void onPause() {
-        super.onPause();
-        /* ... */
-        shouldRun = false;
-        timerHandler.removeCallbacksAndMessages(timerRunnable);
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        // Gỡ bỏ ConcreteObserver khi hoạt động hoặc fragment bị hủy
-//        if (cartFragment != null) {
-//            cartFragment.removeObserver(this);
-//        }
-    }
-    public int daysBetween(Date d1, Date d2){
-        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
-    }
-
-
 }
