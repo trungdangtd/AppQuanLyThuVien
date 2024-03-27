@@ -6,6 +6,7 @@ public class LibraryCard {
     String expirationDate;
     Boolean useStatus;
     Boolean borrowStatus;
+    String dateBorrow;
 
     public LibraryCard()
     {
@@ -15,13 +16,13 @@ public class LibraryCard {
         this.useStatus =false;
         this.borrowStatus =false;
     }
-
-    public LibraryCard(String id, String name, String expirationDate, Boolean useStatus, Boolean borrowStatus) {
+    public LibraryCard(String id, String name, String expirationDate, Boolean useStatus, Boolean borrowStatus, String dateBorrow) {
         this.id = id;
         this.name = name;
         this.expirationDate = expirationDate;
         this.useStatus = useStatus;
         this.borrowStatus = borrowStatus;
+        this.dateBorrow = dateBorrow;
     }
 
     public String getId() {
@@ -62,5 +63,13 @@ public class LibraryCard {
 
     public void setBorrowStatus(Boolean borrowStatus) {
         this.borrowStatus = borrowStatus;
+    }
+
+    public String getDateBorrow() {
+        return dateBorrow;
+    }
+
+    public void setDateBorrow(String dateBorrow) {
+        this.dateBorrow = dateBorrow;
     }
 }

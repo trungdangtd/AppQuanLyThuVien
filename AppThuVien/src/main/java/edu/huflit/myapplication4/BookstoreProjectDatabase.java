@@ -93,6 +93,15 @@ public class BookstoreProjectDatabase {
             }
         }
     }
+    public static void AddNofication(Nofication nofication)
+    {
+        HashMap<String, Object> multiData = new HashMap<>();
+        multiData.put("Title", nofication.getTitle());
+        multiData.put("Content", nofication.getContent());
+        multiData.put("DateUpdate", nofication.getDateUpdate());
+        multiData.put("IdStudent", nofication.getIdStudent());
+        noficationCollectionRef.document().set(multiData);
+    }
 
     public static ArrayList<Book> booksAfterSorted;
     // Tải sách
@@ -397,7 +406,8 @@ public class BookstoreProjectDatabase {
                                     idCart.getString("Name"),
                                     idCart.getString("ExpirationDate"),
                                     idCart.getBoolean("Status"),
-                                    idCart.getBoolean("Borrow"));
+                                    idCart.getBoolean("Borrow"),
+                                    idCart.getString("DateBorrow"));
                         }
                         Snackbar.make(view, "Đăng nhập thành công", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
@@ -480,7 +490,9 @@ public class BookstoreProjectDatabase {
                             libraryCardId.getString("Name"),
                             libraryCardId.getString("ExpirationDate"),
                             libraryCardId.getBoolean("Status"),
-                            libraryCardId.getBoolean("Borrow")));
+                            libraryCardId.getBoolean("Borrow"),
+                            libraryCardId.getString("DateBorrow")
+                    ));
                 }
                 break;
             }
@@ -662,7 +674,10 @@ public class BookstoreProjectDatabase {
         libraryCardCollectionRef.document(libraryCard.getId()).update("Borrow", borrowStatus);
         libraryCardCollectionRef.document(libraryCard.getId()).update("Status", useStatus);
     }
-
+    public static void UpdateLibraryCard(@NonNull LibraryCard libraryCard, boolean useStatus)
+    {
+        libraryCardCollectionRef.document(libraryCard.getId()).update("Status", useStatus);
+    }
     // cập nhật thẻ thư viện
     public static void UpdateLibraryCard(@NonNull LibraryCard libraryCard, boolean useStatus, String ExpirationDate)
     {

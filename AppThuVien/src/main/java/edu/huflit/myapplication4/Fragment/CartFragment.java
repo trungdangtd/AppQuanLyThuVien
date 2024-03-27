@@ -18,13 +18,18 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import edu.huflit.myapplication4.Adapter.CartApdater;
 import edu.huflit.myapplication4.BookstoreProjectDatabase;
+import edu.huflit.myapplication4.ObserverPattern.BorrowObserver;
+import edu.huflit.myapplication4.ObserverPattern.BorrowSubject;
 import edu.huflit.myapplication4.Entity.Copy;
 import edu.huflit.myapplication4.Entity.Loan;
+import edu.huflit.myapplication4.Entity.Nofication;
 import edu.huflit.myapplication4.MainActivity;
+import edu.huflit.myapplication4.ObserverPattern.Observer;
 import edu.huflit.myapplication4.R;
 
 /**
@@ -42,7 +47,6 @@ public class CartFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     public CartFragment() {
         // Required empty public constructor
     }
@@ -105,7 +109,12 @@ public class CartFragment extends Fragment {
         nofiMessage = view.findViewById(R.id.message);
     }
     void notifyBorrowSuccess() {
-        Toast.makeText(getActivity().getApplicationContext(), "Mượn sách thành công!", Toast.LENGTH_LONG).show();
+        BorrowSubject subject = new BorrowSubject();
+        // Tạo và thêm Observer vào Subject
+        Observer observer = new BorrowObserver(getActivity().getApplicationContext(),"Mượn sách thành công");
+        subject.attach(observer);
+        // Thông báo cho tất cả các Observer
+        subject.notifyObservers();
     }
     void SetPalletes()
     {
@@ -159,7 +168,16 @@ public class CartFragment extends Fragment {
         }
         BookstoreProjectDatabase.UpdateLibraryCard(BookstoreProjectDatabase.libraryCard, true, BookstoreProjectDatabase.libraryCard.getUseStatus());
         notifyBorrowSuccess();
+        NotifyBorrowBookSucces();
         bookCartList.getAdapter().notifyDataSetChanged();
         nofiMessage.setVisibility(View.VISIBLE);
     }
+
+    public static void NotifyBorrowBookSucces(){
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        BookstoreProjectDatabase.AddNofication(new Nofication("Bình thường", formattedDate, "Mượn sách thành công", BookstoreProjectDatabase.libraryCard.getId()));
+    }
+
 }
