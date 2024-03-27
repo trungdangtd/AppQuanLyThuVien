@@ -15,6 +15,8 @@ public class CardExpirationCheck implements LibraryComponent {
 
     @Override
     public void performTask() {
+        if(MainActivity.instance.isLogin){
+        if (!BookstoreProjectDatabase.accountInfo.getRole().equals("Quản lý")){
         if (MainActivity.instance.isLogin && !TextUtils.isEmpty(BookstoreProjectDatabase.libraryCard.getId())) {
             if (BookstoreProjectDatabase.libraryCard.getUseStatus()) {
                 Date c = Calendar.getInstance().getTime();
@@ -44,8 +46,11 @@ public class CardExpirationCheck implements LibraryComponent {
                     }
                 }
             }
+            }
         }
     }
+}
+
 
     @Override
     public void addComponent(LibraryComponent component) {

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ import edu.huflit.myapplication4.Entity.Book;
 import edu.huflit.myapplication4.Entity.Copy;
 import edu.huflit.myapplication4.MainActivity;
 import edu.huflit.myapplication4.R;
+import edu.huflit.myapplication4.Builder.TableBuilder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,262 +113,95 @@ public class ReportFragment extends Fragment {
         getFragmentManager().popBackStack();
     }
 
-    void CreateGeneralTable(View view)
-    {
+    void CreateGeneralTable(View view) {
+        TableBuilder tableBuilder = new TableBuilder(getActivity(), tblGeneral);
         String[] nameCols = {"Tổng số sách", "Tổng số bản sao", "Tổng số tài khoản", "Tổng số thẻ thư viện", "Tổng số phiếu mượn"};
 
-        for(int i = 0; i < nameCols.length; i++)
-        {
-            TableRow row1 = new TableRow(getActivity());
-            //row1.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            row1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 100));
+        for (String nameCol : nameCols) {
+            ArrayList<TextView> textViews = new ArrayList<>();
 
-            TextView txtCol = new TextView(getActivity().getApplicationContext());
-            txtCol.setText(nameCols[i]);
-            txtCol.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol.setGravity(Gravity.LEFT);
-            row1.addView(txtCol);
+            textViews.add(tableBuilder.createTextView(nameCol, Gravity.LEFT));
 
-            if(nameCols[i].equals("Tổng số sách"))
-            {
-                TextView txtCol1 = new TextView(getActivity().getApplicationContext());
-                txtCol1.setText(String.valueOf(BookstoreProjectDatabase.books.size()));
-                txtCol1.setBackgroundResource(R.drawable.cotlibrarycard);
-                txtCol1.setGravity(Gravity.CENTER_HORIZONTAL);
-                row1.addView(txtCol1);
-            }
-            else if(nameCols[i].equals("Tổng số bản sao"))
-            {
-                TextView txtCol1 = new TextView(getActivity().getApplicationContext());
-                txtCol1.setText(String.valueOf(BookstoreProjectDatabase.copies.size()));
-                txtCol1.setBackgroundResource(R.drawable.cotlibrarycard);
-                txtCol1.setGravity(Gravity.CENTER_HORIZONTAL);
-                row1.addView(txtCol1);
-            }
-            else if(nameCols[i].equals("Tổng số tài khoản"))
-            {
-                TextView txtCol1 = new TextView(getActivity().getApplicationContext());
-                txtCol1.setText(String.valueOf(BookstoreProjectDatabase.accounts.size()));
-                txtCol1.setBackgroundResource(R.drawable.cotlibrarycard);
-                txtCol1.setGravity(Gravity.CENTER_HORIZONTAL);
-                row1.addView(txtCol1);
-            }
-            else if(nameCols[i].equals("Tổng số thẻ thư viện"))
-            {
-                TextView txtCol1 = new TextView(getActivity().getApplicationContext());
-                txtCol1.setText(String.valueOf(BookstoreProjectDatabase.libraryCards.size()));
-                txtCol1.setBackgroundResource(R.drawable.cotlibrarycard);
-                txtCol1.setGravity(Gravity.CENTER_HORIZONTAL);
-                row1.addView(txtCol1);
-            }
-            else if(nameCols[i].equals("Tổng số phiếu mượn"))
-            {
-                TextView txtCol1 = new TextView(getActivity().getApplicationContext());
-                txtCol1.setText(String.valueOf(BookstoreProjectDatabase.loans.size()));
-                txtCol1.setBackgroundResource(R.drawable.cotlibrarycard);
-                txtCol1.setGravity(Gravity.CENTER_HORIZONTAL);
-                row1.addView(txtCol1);
+            if (nameCol.equals("Tổng số sách")) {
+                textViews.add(tableBuilder.createTextView(String.valueOf(BookstoreProjectDatabase.books.size()), Gravity.CENTER_HORIZONTAL));
+            } else if (nameCol.equals("Tổng số bản sao")) {
+                textViews.add(tableBuilder.createTextView(String.valueOf(BookstoreProjectDatabase.copies.size()), Gravity.CENTER_HORIZONTAL));
+            } else if (nameCol.equals("Tổng số tài khoản")) {
+                textViews.add(tableBuilder.createTextView(String.valueOf(BookstoreProjectDatabase.accounts.size()), Gravity.CENTER_HORIZONTAL));
+            } else if (nameCol.equals("Tổng số thẻ thư viện")) {
+                textViews.add(tableBuilder.createTextView(String.valueOf(BookstoreProjectDatabase.libraryCards.size()), Gravity.CENTER_HORIZONTAL));
+            } else if (nameCol.equals("Tổng số phiếu mượn")) {
+                textViews.add(tableBuilder.createTextView(String.valueOf(BookstoreProjectDatabase.loans.size()), Gravity.CENTER_HORIZONTAL));
             }
 
-            tblGeneral.addView(row1);
-            //add a new line to the TableLayout:
-            final View vline = new View(getActivity().getApplicationContext());
-
-            vline.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            //vline.setBackgroundColor(Color.BLUE);
-            tblGeneral.addView(vline);
+            tableBuilder.addRow(textViews);
         }
     }
 
-    void CreateBookWithCopyTable(View view)
-    {
-        //add a new line to the TableLayout:
-        final View vline = new View(getActivity().getApplicationContext());
-
-        vline.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 40));
-        //vline.setBackgroundColor(Color.BLUE);
-        tblGeneral.addView(vline);
+    void CreateBookWithCopyTable(View view) {
+        TableBuilder tableBuilder = new TableBuilder(getActivity(), tblGeneral);
         String[] nameCols = {"Sách", "Tổng số bản sao"};
-        TableRow row1 = new TableRow(getActivity());
-        //row1.setGravity(Gravity.CENTER_HORIZONTAL);
-        row1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        row1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 100));
-        for(int i = 0; i < nameCols.length; i++)
-        {
-            TextView txtCol = new TextView(getActivity().getApplicationContext());
-            txtCol.setText(nameCols[i]);
-            txtCol.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.addView(txtCol);
+
+        ArrayList<TextView> headerTextViews = new ArrayList<>();
+        for (String nameCol : nameCols) {
+            headerTextViews.add(tableBuilder.createTextView(nameCol, Gravity.CENTER_HORIZONTAL));
         }
-        tblGeneral.addView(row1);
-        //add a new line to the TableLayout:
-        final View vline1 = new View(getActivity().getApplicationContext());
+        tableBuilder.addRow(headerTextViews);
 
-        vline1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-        //vline.setBackgroundColor(Color.BLUE);
-        tblGeneral.addView(vline1);
-        for(Book book : BookstoreProjectDatabase.books)
-        {
+        for (Book book : BookstoreProjectDatabase.books) {
+            ArrayList<TextView> rowTextViews = new ArrayList<>();
+
+            rowTextViews.add(tableBuilder.createTextView(book.getTitle(), Gravity.LEFT));
+
             ArrayList<Copy> copies = BookstoreProjectDatabase.LoadCopiesWithBookId(book.getId(), "");
-            row1 = new TableRow(getActivity());
-            //row1.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            row1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 100));
+            rowTextViews.add(tableBuilder.createTextView(String.valueOf(copies.size()), Gravity.CENTER_HORIZONTAL));
 
-            TextView txtCol1 = new TextView(getActivity().getApplicationContext());
-            txtCol1.setText(book.getTitle());
-            txtCol1.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol1.setGravity(Gravity.LEFT);
-            row1.addView(txtCol1);
-
-            TextView txtCol2 = new TextView(getActivity().getApplicationContext());
-            txtCol2.setText(String.valueOf(copies.size()));
-            txtCol2.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol2.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.addView(txtCol2);
-
-            tblGeneral.addView(row1);
-            //add a new line to the TableLayout:
-            final View vline2 = new View(getActivity().getApplicationContext());
-
-            vline2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            //vline.setBackgroundColor(Color.BLUE);
-            tblGeneral.addView(vline2);
+            tableBuilder.addRow(rowTextViews);
         }
     }
 
-    void CreateBookWithCopyStatusTable(View view)
-    {
-        //add a new line to the TableLayout:
-        final View vline = new View(getActivity().getApplicationContext());
-
-        vline.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 40));
-        //vline.setBackgroundColor(Color.BLUE);
-        tblGeneral.addView(vline);
-
+    void CreateBookWithCopyStatusTable(View view) {
+        TableBuilder tableBuilder = new TableBuilder(getActivity(), tblGeneral);
         String[] nameCols = {"Sách", "Còn", "Cho mượn", "Mất", "Hỏng"};
-        TableRow row1 = new TableRow(getActivity());
-        //row1.setGravity(Gravity.CENTER_HORIZONTAL);
-        row1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        row1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 100));
-        for(int i = 0; i < nameCols.length; i++)
-        {
-            TextView txtCol = new TextView(getActivity().getApplicationContext());
-            txtCol.setText(nameCols[i]);
-            txtCol.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.addView(txtCol);
+
+        ArrayList<TextView> headerTextViews = new ArrayList<>();
+        for (String nameCol : nameCols) {
+            headerTextViews.add(tableBuilder.createTextView(nameCol, Gravity.CENTER_HORIZONTAL));
         }
-        tblGeneral.addView(row1);
-        //add a new line to the TableLayout:
-        final View vline1 = new View(getActivity().getApplicationContext());
+        tableBuilder.addRow(headerTextViews);
 
-        vline1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-        //vline.setBackgroundColor(Color.BLUE);
-        tblGeneral.addView(vline1);
-        int readyTotal, borrowTotal, lostTotal, brokeTotal;
-        readyTotal = 0;
-        borrowTotal = 0;
-        lostTotal = 0;
-        brokeTotal = 0;
-        for(Book book : BookstoreProjectDatabase.books)
-        {
-            row1 = new TableRow(getActivity());
-            //row1.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            row1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 100));
+        int readyTotal = 0, borrowTotal = 0, lostTotal = 0, brokeTotal = 0;
+        for (Book book : BookstoreProjectDatabase.books) {
+            ArrayList<TextView> rowTextViews = new ArrayList<>();
 
-            TextView txtCol = new TextView(getActivity().getApplicationContext());
-            txtCol.setText(book.getTitle());
-            txtCol.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol.setGravity(Gravity.LEFT);
-            row1.addView(txtCol);
+            rowTextViews.add(tableBuilder.createTextView(book.getTitle(), Gravity.LEFT));
 
             ArrayList<Copy> copies = BookstoreProjectDatabase.LoadCopiesWithBookId(book.getId(), "Còn");
-            TextView txtCol1 = new TextView(getActivity().getApplicationContext());
-            txtCol1.setText(String.valueOf(copies.size()));
-            txtCol1.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol1.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.addView(txtCol1);
+            rowTextViews.add(tableBuilder.createTextView(String.valueOf(copies.size()), Gravity.CENTER_HORIZONTAL));
             readyTotal += copies.size();
 
             copies = BookstoreProjectDatabase.LoadCopiesWithBookId(book.getId(), "Cho mượn");
-            TextView txtCol2 = new TextView(getActivity().getApplicationContext());
-            txtCol2.setText(String.valueOf(copies.size()));
-            txtCol2.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol2.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.addView(txtCol2);
+            rowTextViews.add(tableBuilder.createTextView(String.valueOf(copies.size()), Gravity.CENTER_HORIZONTAL));
             borrowTotal += copies.size();
 
             copies = BookstoreProjectDatabase.LoadCopiesWithBookId(book.getId(), "Mất");
-            TextView txtCol3 = new TextView(getActivity().getApplicationContext());
-            txtCol3.setText(String.valueOf(copies.size()));
-            txtCol3.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol3.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.addView(txtCol3);
+            rowTextViews.add(tableBuilder.createTextView(String.valueOf(copies.size()), Gravity.CENTER_HORIZONTAL));
             lostTotal += copies.size();
 
             copies = BookstoreProjectDatabase.LoadCopiesWithBookId(book.getId(), "Hỏng");
-            TextView txtCol4 = new TextView(getActivity().getApplicationContext());
-            txtCol4.setText(String.valueOf(copies.size()));
-            txtCol4.setBackgroundResource(R.drawable.cotlibrarycard);
-            txtCol4.setGravity(Gravity.CENTER_HORIZONTAL);
-            row1.addView(txtCol4);
+            rowTextViews.add(tableBuilder.createTextView(String.valueOf(copies.size()), Gravity.CENTER_HORIZONTAL));
             brokeTotal += copies.size();
 
-            tblGeneral.addView(row1);
-            //add a new line to the TableLayout:
-            final View vline2 = new View(getActivity().getApplicationContext());
-
-            vline2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            //vline.setBackgroundColor(Color.BLUE);
-            tblGeneral.addView(vline2);
+            tableBuilder.addRow(rowTextViews);
         }
 
+        ArrayList<TextView> totalRowTextViews = new ArrayList<>();
+        totalRowTextViews.add(tableBuilder.createTextView("Tổng", Gravity.LEFT));
+        totalRowTextViews.add(tableBuilder.createTextView(String.valueOf(readyTotal), Gravity.CENTER_HORIZONTAL));
+        totalRowTextViews.add(tableBuilder.createTextView(String.valueOf(borrowTotal), Gravity.CENTER_HORIZONTAL));
+        totalRowTextViews.add(tableBuilder.createTextView(String.valueOf(lostTotal), Gravity.CENTER_HORIZONTAL));
+        totalRowTextViews.add(tableBuilder.createTextView(String.valueOf(brokeTotal), Gravity.CENTER_HORIZONTAL));
 
-        row1 = new TableRow(getActivity());
-        //row1.setGravity(Gravity.CENTER_HORIZONTAL);
-        row1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        row1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 100));
-
-        TextView txtCol = new TextView(getActivity().getApplicationContext());
-        txtCol.setText("Tổng");
-        txtCol.setBackgroundResource(R.drawable.cotlibrarycard);
-        txtCol.setGravity(Gravity.LEFT);
-        row1.addView(txtCol);
-
-        TextView txtCol1 = new TextView(getActivity().getApplicationContext());
-        txtCol1.setText(String.valueOf(readyTotal));
-        txtCol1.setBackgroundResource(R.drawable.cotlibrarycard);
-        txtCol1.setGravity(Gravity.CENTER_HORIZONTAL);
-        row1.addView(txtCol1);
-
-        TextView txtCol2 = new TextView(getActivity().getApplicationContext());
-        txtCol2.setText(String.valueOf(borrowTotal));
-        txtCol2.setBackgroundResource(R.drawable.cotlibrarycard);
-        txtCol2.setGravity(Gravity.CENTER_HORIZONTAL);
-        row1.addView(txtCol2);
-
-        TextView txtCol3 = new TextView(getActivity().getApplicationContext());
-        txtCol3.setText(String.valueOf(lostTotal));
-        txtCol3.setBackgroundResource(R.drawable.cotlibrarycard);
-        txtCol3.setGravity(Gravity.CENTER_HORIZONTAL);
-        row1.addView(txtCol3);
-
-        TextView txtCol4 = new TextView(getActivity().getApplicationContext());
-        txtCol4.setText(String.valueOf(brokeTotal));
-        txtCol4.setBackgroundResource(R.drawable.cotlibrarycard);
-        txtCol4.setGravity(Gravity.CENTER_HORIZONTAL);
-        row1.addView(txtCol4);
-
-        tblGeneral.addView(row1);
-        //add a new line to the TableLayout:
-        final View vline2 = new View(getActivity().getApplicationContext());
-
-        vline2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-        //vline.setBackgroundColor(Color.BLUE);
-        tblGeneral.addView(vline2);
+        tableBuilder.addRow(totalRowTextViews);
     }
 }
